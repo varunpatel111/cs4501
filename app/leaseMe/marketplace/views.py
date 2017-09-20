@@ -41,7 +41,7 @@ def users_create(request):
 def get_user(request, user):
 	queryset = CustomUser.objects.all()
 	r = list(queryset)
-	user = int(user)
+	user = int(user) - 1
 	if r[user]:
 		return HttpResponse(json.dumps(r[user], default=lambda o: o.__dict__,
             sort_keys=True, indent=4))
@@ -72,4 +72,3 @@ def get_listing(request, listing):
             sort_keys=True, indent=4))
 	else:
 		return None
->>>>>>> 469c7a148109e554dd0f341c37ae9bcd35136c84
