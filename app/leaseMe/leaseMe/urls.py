@@ -13,15 +13,21 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework import routers
 from rest_framework.urlpatterns import format_suffix_patterns
 from marketplace import views
+from .routers import router
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^users/', views.CustomUserList.as_view()),
-    url(r'^listings/', views.ListingList.as_view()),
+    #url(r'^', include(router.urls)),
+    url(r'^api/', include(router.urls))
+    #url(r'^users/(?P<pk>[0-9]+)/', views.CustomUserDetail.as_view()),
+    #url(r'^users', views.CustomUserList.as_view()),
+    #url(r'^listings', views.ListingList.as_view()),
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+#urlpatterns = format_suffix_patterns(urlpatterns)

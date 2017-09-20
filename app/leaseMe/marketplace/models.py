@@ -9,8 +9,6 @@ class CustomUser(models.Model):
 	password = models.CharField(max_length=50)
 	first_name = models.CharField(max_length=30)
 	last_name = models.CharField(max_length=30)
-	#just make a simple user for now
-
 
 
 class Listing(models.Model):
