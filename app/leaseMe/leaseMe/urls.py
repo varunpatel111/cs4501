@@ -20,7 +20,8 @@ from marketplace import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^users/', views.UserList.as_view()),
+    url(r'^users/', views.CustomUserList.as_view()),
+    url(r'^listings/', views.ListingList.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
