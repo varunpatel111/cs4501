@@ -22,7 +22,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #url(r'^', include(router.urls)),
     #url(r'^api/', include(router.urls))
-    url(r'^api/users/', views.all_users),
+    url(r'^api/users/$', views.all_users),
+    url(r'^api/users/create/$', views.users_create),
     #url(r'^users/(?P<pk>[0-9]+)/', views.CustomUserDetail.as_view()),
     #url(r'^users', views.CustomUserList.as_view()),
     #url(r'^listings', views.ListingList.as_view()),
