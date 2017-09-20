@@ -15,16 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from rest_framework import routers
-from rest_framework.urlpatterns import format_suffix_patterns
 from marketplace import views
-from .routers import router
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #url(r'^', include(router.urls)),
-    url(r'^api/', include(router.urls))
+    #url(r'^api/', include(router.urls))
+    url(r'^api/users/', views.all_users),
     #url(r'^users/(?P<pk>[0-9]+)/', views.CustomUserDetail.as_view()),
     #url(r'^users', views.CustomUserList.as_view()),
     #url(r'^listings', views.ListingList.as_view()),

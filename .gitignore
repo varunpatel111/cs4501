@@ -1,3 +1,5 @@
 __pycache__/
 db/
 app/leaseMe/marketplace/migrations/
+app/leaseMe/db.sqlite3
+.DS_Store
