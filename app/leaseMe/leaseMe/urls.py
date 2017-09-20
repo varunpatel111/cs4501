@@ -16,17 +16,20 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from marketplace import views
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #url(r'^', include(router.urls)),
-    #url(r'^api/', include(router.urls))
-    url(r'^api/users/$', views.all_users),  
+    #url(r'^api/', include(ro, csrf_exempt(direct_to_template), uter.urls))
+    url(r'^api/users/$', views.all_users),
     url(r'^api/users/(?P<user>[0-9])/$', views.get_user),
     url(r'^api/users/create/$', views.users_create),
-    url(r'^api/listings/', views.all_listings),
+    url(r'^api/listings/$', views.all_listings),
     url(r'^api/listings/(?P<listing>[0-9])/$', views.get_listing),
+    url(r'^api/listings/create/$', views.listings_create),
     #url(r'^users/(?P<pk>[0-9]+)/', views.CustomUserDetail.as_view()),
     #url(r'^users', views.CustomUserList.as_view()),
     #url(r'^listings', views.ListingList.as_view()),
