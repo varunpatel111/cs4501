@@ -28,12 +28,10 @@ def users_create(request):
 			password = request.POST.get('password')
 
 			newUser = CustomUser(email=email, first_name=first_name, password=password, last_name=last_name)
-			# newUser.save()
+			newUser.save()
 			return HttpResponse("User saved")
 		else:
 			return HttpResponse("Sorry, the object passed was not valid")
-
-		return HttpResponse(email)
 
 
 	return HttpResponse("Working")
@@ -47,14 +45,6 @@ def get_user(request, user):
             sort_keys=True, indent=4))
 	else:
 		return None
-
-
-@csrf_exempt
-def users_create(request):
-	if request.method == "POST":
-		return HttpResponse("got it")
-	else:
-		return HttpResponse("got it")
 
 
 
