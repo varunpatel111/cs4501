@@ -23,7 +23,10 @@ urlpatterns = [
     #url(r'^', include(router.urls)),
     #url(r'^api/', include(router.urls))
     url(r'^api/users/$', views.all_users),
+    url(r'^api/users/(?P<user>[0-9])/$', views.get_user),
     url(r'^api/users/create/$', views.users_create),
+    url(r'^api/listings/', views.all_listings),
+    url(r'^api/listings/(?P<listing>[0-9])/$', views.get_listing),
     #url(r'^users/(?P<pk>[0-9]+)/', views.CustomUserDetail.as_view()),
     #url(r'^users', views.CustomUserList.as_view()),
     #url(r'^listings', views.ListingList.as_view()),
