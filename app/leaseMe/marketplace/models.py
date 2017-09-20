@@ -12,6 +12,7 @@ class CustomUser(models.Model):
 	#just make a simple user for now
 
 
+
 class Listing(models.Model):
 	address = models.CharField(max_length=50)
 	num_bedrooms = models.IntegerField()
