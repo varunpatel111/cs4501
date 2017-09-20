@@ -55,7 +55,7 @@ def get_user(request, user):
 		user_num = int(user)
 		if (len(CustomUser.objects.filter(id=user_num)) != 0):
 			user = CustomUser.objects.filter(id=user_num)[0]
-			return HttpResponse(json.dumps(user, default=lambda o: o.__dict_,
+			return HttpResponse(json.dumps(user, default=lambda o: o.__dict__,
 	            sort_keys=True, indent=4))
 		else:
 			return HttpResponse("Sorry, that user doesn't exist")
@@ -75,6 +75,15 @@ def get_user(request, user):
 				return HttpResponse("Sorry that user doesn't exist")
 
 
+
+
+
+
+
+
+
+
+
 # listings
 
 
@@ -91,13 +100,10 @@ def get_listing(request, listing):
 		listing_num = int(listing)
 		if (len(Listing.objects.filter(id=listing_num)) != 0):
 			listing1 = Listing.objects.filter(id=listing_num)[0]
-
 			return HttpResponse(json.dumps(listing1, default=json_default,
 				sort_keys=True, indent=4))
-
-				# This is not working right now because the listing object contains dates, which json is not recognizing
 		else:
-			return HttpResponse("Sorry, that user doesn't exist")
+			return HttpResponse("Sorry, that listing doesn't exist")
 
 	if request.method == "POST":
 		if (isValidListing(request)):
@@ -151,7 +157,7 @@ def listings_create(request):
 			user = CustomUser.objects.filter(id=user_num)[0]
 
 			newListing = Listing(address=address, num_bedrooms=num_bedrooms, num_bathrooms=num_bathrooms, price=price, start_date=start_date, end_date=end_date, description=description, sold=sold, user=user)
-			# newListing.save()
+			newListing.save()
 			return HttpResponse("Listing saved")
 		else:
 			return HttpResponse("Sorry, the object passed was not valid")
