@@ -2,7 +2,8 @@ from .models import CustomUser
 from .models import Listing
 from django.http import Http404
 from django.http import HttpResponse
-
+import json
+from django.core import serializers
 
 #class CustomUserViewSet(viewsets.ModelViewSet):
 #    queryset = CustomUser.objects.all()
@@ -14,4 +15,5 @@ from django.http import HttpResponse
 
 def all_users(request):
 	queryset = CustomUser.objects.all()
-	return HttpResponse("working")
+	r = serializers.serialize('json', queryset)
+	return HttpResponse(r)
