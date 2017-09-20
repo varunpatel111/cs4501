@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #url(r'^', include(router.urls)),
     #url(r'^api/', include(router.urls))
-    url(r'^api/users/$', views.all_users),
+    url(r'^api/users/$', views.all_users),  
     url(r'^api/users/(?P<user>[0-9])/$', views.get_user),
     url(r'^api/users/create/$', views.users_create),
     url(r'^api/listings/', views.all_listings),
