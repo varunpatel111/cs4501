@@ -45,11 +45,11 @@ def users_create(request):
 
 			newUser = CustomUser(email=email, first_name=first_name, password=password, last_name=last_name)
 			newUser.save()
-			return HttpResponse("SUCCESS")
+			return HttpResponse("User created succesfully")
 		else:
-			return HttpResponse("FAILED")
+			return HttpResponse("The user you are trying to create is invalid", status=404)
 
-	return HttpResponse("This should be a POST method!")
+	return HttpResponse("This should be a POST method!", status=404)
 
 @csrf_exempt
 def get_user(request, user):
@@ -61,7 +61,7 @@ def get_user(request, user):
 		else:
 			return HttpResponse("Sorry, that user doesn't exist", status=404)
 
-	if request.method == "POST":
+	elif request.method == "POST":
 		if (isValidUser(request)):
 			user_num = int(user)
 			if (len(CustomUser.objects.filter(id=user_num)) != 0):
@@ -71,27 +71,20 @@ def get_user(request, user):
 				user.password = request.POST.get('password')
 				user.email = request.POST.get('email')
 				user.save()
-				return HttpResponse("SUCCESS")
+				return HttpResponse("User updated successfully")
 			else:
-				return HttpResponse("FAILED", status=404)
+				return HttpResponse("Sorry, that user does not exist", status=404)
 		else:
-			return HttpResponse("FAILED")
+			return HttpResponse("The user you are trying to create is not valid", status=404)
 
+	elif request.method == "DELETE":
+		user_num = int(user)
+		if (len(CustomUser.objects.filter(id=user_num)) == 0):
+			return HttpResponse("Sorry, that user does not exist", status=404)
 
-
-
-
-
-
-
-
-
-# listings ------
-
-
-
-
-
+		u = CustomUser.objects.filter(id=user_num)[0]
+		u.delete()
+		return HttpResponse("User with id " + str(user_num) + " deleted successfully")			
 
 
 #Get all Listings
@@ -114,9 +107,9 @@ def get_listing(request, listing):
 			return HttpResponse(json.dumps(listing1, default=json_default,
 				sort_keys=True, indent=4))
 		else:
-			return HttpResponse("Sorry, that listing doesn't exist",  status=404)
+			return HttpResponse("Sorry, that listing does not exist",  status=404)
 
-	if request.method == "POST":
+	elif request.method == "POST":
 		if (isValidListing(request)):
 			listing_num = int(listing)
 			if (len(Listing.objects.filter(id=listing_num)) != 0):
@@ -134,9 +127,18 @@ def get_listing(request, listing):
 				user = CustomUser.objects.filter(id=user_num)[0]
 				listing1.user = user
 				listing1.save()
-				return HttpResponse("SUCCESS")
+				return HttpResponse("Listing updated succesfully")
 		else:
-			return HttpResponse("FAILED")
+			return HttpResponse("Sorry, that listing does not exist", status=404)
+
+	elif request.method == "DELETE":
+		list_num = int(listing)
+		if (len(Listing.objects.filter(id=list_num)) == 0):
+			return HttpResponse("Sorry, that listing does not exist", status=404)
+
+		l = Listing.objects.filter(id=list_num)[0]
+		l.delete()
+		return HttpResponse("Listing with id " + str(list_num) + " deleted successfully")				
 
 
 
@@ -169,8 +171,8 @@ def listings_create(request):
 
 			newListing = Listing(address=address, num_bedrooms=num_bedrooms, num_bathrooms=num_bathrooms, price=price, start_date=start_date, end_date=end_date, description=description, sold=sold, user=user)
 			newListing.save()
-			return HttpResponse("SUCCESS")
+			return HttpResponse("Listing created succesfully")
 		else:
-			return HttpResponse("FAILED")
+			return HttpResponse("The listing you are trying to create is invalid", status=404)
 
-	return HttpResponse("This should be a POST method!")
+	return HttpResponse("This should be a POST method!", status=404)
