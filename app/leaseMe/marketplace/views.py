@@ -57,8 +57,7 @@ def get_user(request, user):
 		user_num = int(user)
 		if (len(CustomUser.objects.filter(id=user_num)) != 0):
 			user = CustomUser.objects.filter(id=user_num)[0]
-			return HttpResponse(json.dumps(user, default=lambda o: o.__dict__,
-	            sort_keys=True, indent=4))
+			return HttpResponse(json.dumps(user, default=lambda o: o.__dict__, sort_keys=True, indent=4))
 		else:
 			return HttpResponse("Sorry, that user doesn't exist", status=404)
 
@@ -111,6 +110,7 @@ def get_listing(request, listing):
 		listing_num = int(listing)
 		if (len(Listing.objects.filter(id=listing_num)) != 0):
 			listing1 = Listing.objects.filter(id=listing_num)[0]
+			ret = json.dumps(listing1, default=json_default, sort_keys=True, indent=4)
 			return HttpResponse(json.dumps(listing1, default=json_default,
 				sort_keys=True, indent=4))
 		else:
