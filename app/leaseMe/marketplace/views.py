@@ -20,7 +20,10 @@ def json_default(value):
 def all_users(request):
 	queryset = CustomUser.objects.all()
 	r = serializers.serialize('json', queryset)
-	return HttpResponse(r)
+	if(len(queryset) > 0):
+		return HttpResponse(r)
+	else:
+		return HttpResponse("No users!", status=404)
 
 #Check if object is a valid CustomUser
 @csrf_exempt
@@ -42,12 +45,11 @@ def users_create(request):
 
 			newUser = CustomUser(email=email, first_name=first_name, password=password, last_name=last_name)
 			newUser.save()
-			return HttpResponse("User saved")
+			return HttpResponse("SUCCESS")
 		else:
-			return HttpResponse("Sorry, the object passed was not valid")
+			return HttpResponse("FAILED")
 
-
-	return HttpResponse("Working")
+	return HttpResponse("This should be a POST method!")
 
 @csrf_exempt
 def get_user(request, user):
@@ -58,7 +60,7 @@ def get_user(request, user):
 			return HttpResponse(json.dumps(user, default=lambda o: o.__dict__,
 	            sort_keys=True, indent=4))
 		else:
-			return HttpResponse("Sorry, that user doesn't exist")
+			return HttpResponse("Sorry, that user doesn't exist", status=404)
 
 	if request.method == "POST":
 		if (isValidUser(request)):
@@ -70,9 +72,11 @@ def get_user(request, user):
 				user.password = request.POST.get('password')
 				user.email = request.POST.get('email')
 				user.save()
-				return HttpResponse("Congrats, the user has been updated")
+				return HttpResponse("SUCCESS")
 			else:
-				return HttpResponse("Sorry that user doesn't exist")
+				return HttpResponse("FAILED", status=404)
+		else:
+			return HttpResponse("FAILED")
 
 
 
@@ -83,15 +87,22 @@ def get_user(request, user):
 
 
 
+# listings ------
 
-# listings
+
+
+
+
 
 
 #Get all Listings
 def all_listings(request):
 	queryset = Listing.objects.all()
 	r = serializers.serialize('json', queryset)
-	return HttpResponse(r)
+	if(len(queryset) > 0):
+		return HttpResponse(r)
+	else:
+		return HttpResponse("No listings!", status=404)
 
 #Get a single Listing (0, 1, 2...)
 @csrf_exempt
@@ -103,7 +114,7 @@ def get_listing(request, listing):
 			return HttpResponse(json.dumps(listing1, default=json_default,
 				sort_keys=True, indent=4))
 		else:
-			return HttpResponse("Sorry, that listing doesn't exist")
+			return HttpResponse("Sorry, that listing doesn't exist",  status=404)
 
 	if request.method == "POST":
 		if (isValidListing(request)):
@@ -123,9 +134,9 @@ def get_listing(request, listing):
 				user = CustomUser.objects.filter(id=user_num)[0]
 				listing1.user = user
 				listing1.save()
-				return HttpResponse("Congrats, the user has been updated")
+				return HttpResponse("SUCCESS")
 		else:
-			return HttpResponse("Sorry, the POST request is not valid")
+			return HttpResponse("FAILED")
 
 
 
@@ -158,8 +169,8 @@ def listings_create(request):
 
 			newListing = Listing(address=address, num_bedrooms=num_bedrooms, num_bathrooms=num_bathrooms, price=price, start_date=start_date, end_date=end_date, description=description, sold=sold, user=user)
 			newListing.save()
-			return HttpResponse("Listing saved")
+			return HttpResponse("SUCCESS")
 		else:
-			return HttpResponse("Sorry, the object passed was not valid")
+			return HttpResponse("FAILED")
 
 	return HttpResponse("This should be a POST method!")
