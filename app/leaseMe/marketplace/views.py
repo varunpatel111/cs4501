@@ -22,6 +22,9 @@ def index(request):
 
 #Get all CustomUsers
 def all_users(request):
+    if request.method != "GET":
+        return HttpResponse("Must be a GET request", status=400)
+
 	queryset = CustomUser.objects.all()
 	r = serializers.serialize('json', queryset)
 	if(len(queryset) > 0):
@@ -40,6 +43,9 @@ def isValidUser(request):
 #Create a new CustomUser
 @csrf_exempt
 def users_create(request):
+    if request.method != "POST":
+        return HttpResponse("Must be a POST request", status=400)
+
 	if request.method == "POST":
 		if (isValidUser(request)):
 			email = request.POST.get('email')
@@ -53,7 +59,6 @@ def users_create(request):
 		else:
 			return HttpResponse("The user you are trying to create is invalid", status=404)
 
-	return HttpResponse("This should be a POST method!", status=404)
 
 @csrf_exempt
 def get_user(request, user):
@@ -79,7 +84,7 @@ def get_user(request, user):
 			else:
 				return HttpResponse("Sorry, that user does not exist", status=404)
 		else:
-			return HttpResponse("The user you are trying to create is not valid", status=404)
+			return HttpResponse("The user you are trying to create is not valid", status=400)
 
 	elif request.method == "DELETE":
 		user_num = int(user)
@@ -88,11 +93,17 @@ def get_user(request, user):
 
 		u = CustomUser.objects.filter(id=user_num)[0]
 		u.delete()
-		return HttpResponse("User with id " + str(user_num) + " deleted successfully")			
+		return HttpResponse("User with id " + str(user_num) + " deleted successfully")
+
+    else:
+        return HttpResponse("Must be a GET/POST/DELETE request", status=400)
 
 
 #Get all Listings
 def all_listings(request):
+    if request.method != "GET":
+        return HttpResponse("Must be a GET request", status=400)
+
 	queryset = Listing.objects.all()
 	r = serializers.serialize('json', queryset)
 	if(len(queryset) > 0):
@@ -142,7 +153,10 @@ def get_listing(request, listing):
 
 		l = Listing.objects.filter(id=list_num)[0]
 		l.delete()
-		return HttpResponse("Listing with id " + str(list_num) + " deleted successfully")				
+		return HttpResponse("Listing with id " + str(list_num) + " deleted successfully")
+
+    else:
+        return HttpResponse("Must be a GET/POST/DELETE request", status=400)
 
 
 
@@ -159,6 +173,9 @@ def isValidListing (request):
 #Create new Listing
 @csrf_exempt
 def listings_create(request):
+    if request.method != "POST":
+        return HttpResponse("Must be a POST request", status=400)
+
 	if request.method == "POST":
 		if (isValidListing(request)):
 			address = request.POST.get('address')
@@ -177,6 +194,4 @@ def listings_create(request):
 			newListing.save()
 			return HttpResponse("Listing created succesfully")
 		else:
-			return HttpResponse("The listing you are trying to create is invalid", status=404)
-
-	return HttpResponse("This should be a POST method!", status=404)
+			return HttpResponse("The listing you are trying to create is invalid", status=400)
