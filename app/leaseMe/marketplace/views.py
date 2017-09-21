@@ -2,6 +2,7 @@ from .models import CustomUser
 from .models import Listing
 from django.http import Http404
 from django.http import HttpResponse
+from django.http import JsonResponse
 import json
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
@@ -21,14 +22,23 @@ def index(request):
 #Users
 
 #Get all CustomUsers
+@csrf_exempt
 def all_users(request):
 	if request.method != "GET":
-		return HttpResponse("Must be a GET request", status=400)
+		d = dict()
+		d["status"] = "FAILED"
+		return JsonResponse(d)
 
-	queryset = CustomUser.objects.all()
-	r = serializers.serialize('json', queryset)
+	queryset = CustomUser.objects.all().values()
+	arr = []
+	for obj in queryset:
+		arr.append(obj)
+	d = {}
 	if(len(queryset) > 0):
-		return HttpResponse(r)
+		d["status"] = "SUCCESS"
+		d["data"] = arr
+
+		return JsonResponse(d)
 	else:
 		return HttpResponse("No users!", status=404)
 
