@@ -1,4 +1,8 @@
 [{"model": "marketplace.customuser", "pk": 1, "fields": {"email": "dorfried@email.com", "password": "password", "first_name": "dor", "last_name": "friedman"}},
 {"model": "marketplace.customuser", "pk": 2, "fields": {"email": "bob@email.com", "password": "password2", "first_name": "bob", "last_name": "joe"}},
+{"model": "marketplace.customuser", "pk": 3, "fields": {"email": "varun@email.com", "password": "mypass", "first_name": "varun", "last_name": "patel"}},
+{"model": "marketplace.customuser", "pk": 4, "fields": {"email": "john@email.com", "password": "123abc", "first_name": "john", "last_name": "taylor"}},
 {"model": "marketplace.listing", "pk": 1, "fields": {"address": "1819 jpa avenue", "num_bedrooms": 5, "num_bathrooms": 3, "price": 1232, "start_date": "2010-12-12", "end_date": "2010-12-13", "description": "Cool place!", "sold": false, "user": 1}},
-{"model": "marketplace.listing", "pk": 2, "fields": {"address": "1815 jpa avenue", "num_bedrooms": 4, "num_bathrooms": 2, "price": 1000, "start_date": "2009-12-12", "end_date": "2009-12-13", "description": "Tiny place!", "sold": false, "user": 1}}]
+{"model": "marketplace.listing", "pk": 2, "fields": {"address": "1212 jpa avenue", "num_bedrooms": 3, "num_bathrooms": 1, "price": 600, "start_date": "2006-9-8", "end_date": "2010-12-13", "description": "Awesome place!", "sold": false, "user": 2}},
+{"model": "marketplace.listing", "pk": 3, "fields": {"address": "1414 jpa avenue", "num_bedrooms": 1, "num_bathrooms": 1, "price": 6000, "start_date": "2009-7-3", "end_date": "2010-12-13", "description": "Really nice place!", "sold": false, "user": 2}},
+{"model": "marketplace.listing", "pk": 4, "fields": {"address": "1815 jpa avenue", "num_bedrooms": 4, "num_bathrooms": 2, "price": 1000, "start_date": "2009-12-12", "end_date": "2009-12-13", "description": "Tiny place!", "sold": false, "user": 4}}]
