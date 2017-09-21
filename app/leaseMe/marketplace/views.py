@@ -22,8 +22,8 @@ def index(request):
 
 #Get all CustomUsers
 def all_users(request):
-    if request.method != "GET":
-        return HttpResponse("Must be a GET request", status=400)
+	if request.method != "GET":
+		return HttpResponse("Must be a GET request", status=400)
 
 	queryset = CustomUser.objects.all()
 	r = serializers.serialize('json', queryset)
@@ -43,8 +43,9 @@ def isValidUser(request):
 #Create a new CustomUser
 @csrf_exempt
 def users_create(request):
-    if request.method != "POST":
-        return HttpResponse("Must be a POST request", status=400)
+
+	if request.method != "POST":
+		return HttpResponse("Must be a POST request", status=400)
 
 	if request.method == "POST":
 		if (isValidUser(request)):
@@ -95,14 +96,14 @@ def get_user(request, user):
 		u.delete()
 		return HttpResponse("User with id " + str(user_num) + " deleted successfully")
 
-    else:
-        return HttpResponse("Must be a GET/POST/DELETE request", status=400)
+	else:
+		return HttpResponse("Must be a GET/POST/DELETE request", status=400)
 
 
 #Get all Listings
 def all_listings(request):
-    if request.method != "GET":
-        return HttpResponse("Must be a GET request", status=400)
+	if request.method != "GET":
+		return HttpResponse("Must be a GET request", status=400)
 
 	queryset = Listing.objects.all()
 	r = serializers.serialize('json', queryset)
@@ -155,8 +156,8 @@ def get_listing(request, listing):
 		l.delete()
 		return HttpResponse("Listing with id " + str(list_num) + " deleted successfully")
 
-    else:
-        return HttpResponse("Must be a GET/POST/DELETE request", status=400)
+	else:
+		return HttpResponse("Must be a GET/POST/DELETE request", status=400)
 
 
 
@@ -173,8 +174,8 @@ def isValidListing (request):
 #Create new Listing
 @csrf_exempt
 def listings_create(request):
-    if request.method != "POST":
-        return HttpResponse("Must be a POST request", status=400)
+	if request.method != "POST":
+		return HttpResponse("Must be a POST request", status=400)
 
 	if request.method == "POST":
 		if (isValidListing(request)):
