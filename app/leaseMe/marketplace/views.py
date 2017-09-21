@@ -112,28 +112,42 @@ def get_user(request, user):
 
 #Get all Listings
 def all_listings(request):
+	d = {}
 	if request.method != "GET":
-		return HttpResponse("Must be a GET request", status=400)
+		d["status"] = "FAILED"
+		d["message"] = "MUST BE A GET REQUEST"
+		return JsonResponse(d, status=404)
 
-	queryset = Listing.objects.all()
-	r = serializers.serialize('json', queryset)
+	queryset = Listing.objects.all().values()
+	arr = []
+	for obj in queryset:
+		arr.append(obj)
 	if(len(queryset) > 0):
-		return HttpResponse(r)
+		d["status"] = "SUCCESS"
+		d["data"] = arr
+		return JsonResponse(d)
 	else:
-		return HttpResponse("No listings!", status=404)
+		d["status"] = "FAILED"
+		d["message"] = "NO LISTINGS AVAILABLE"
+		return JsonResponse(d, status=404)
 
 #Get a single Listing (0, 1, 2...)
 @csrf_exempt
 def get_listing(request, listing):
+	d = {}
 	if request.method == "GET":
 		listing_num = int(listing)
 		if (len(Listing.objects.filter(id=listing_num)) != 0):
-			listing1 = Listing.objects.filter(id=listing_num)[0]
-			ret = json.dumps(listing1, default=json_default, sort_keys=True, indent=4)
-			return HttpResponse(json.dumps(listing1, default=json_default,
-				sort_keys=True, indent=4))
+			listing1 = Listing.objects.filter(id=listing_num).values()
+			arr = []
+			arr.append(listing1[0])
+			d["status"] = "SUCCESS"
+			d["data"] = arr
+			return JsonResponse(d)
 		else:
-			return HttpResponse("Sorry, that listing does not exist",  status=404)
+			d["status"] = "FAILED"
+			d["message"] = "THAT LISTING DOESN'T EXIST"
+			return JsonResponse(d,  status=404)
 
 	elif request.method == "POST":
 		if (isValidListing(request)):
@@ -153,22 +167,30 @@ def get_listing(request, listing):
 				user = CustomUser.objects.filter(id=user_num)[0]
 				listing1.user = user
 				listing1.save()
-				return HttpResponse("Listing updated succesfully")
+				d["status"] = "SUCCESS"
+				d["message"] = "LISTING UPDATED SUCCESSFULLY"
+				return JsonResponse(d)
 		else:
-			return HttpResponse("Sorry, that listing does not exist", status=404)
+			d["status"] = "FAILED"
+			d["message"] = "THAT LISTING DOESN'T EXIST"
+			return JsonResponse(d,  status=404)
 
 	elif request.method == "DELETE":
 		list_num = int(listing)
 		if (len(Listing.objects.filter(id=list_num)) == 0):
-			return HttpResponse("Sorry, that listing does not exist", status=404)
-
+			d["status"] = "FAILED"
+			d["message"] = "THAT LISTING DOESN'T EXIST"
+			return JsonResponse(d,  status=404)
 		l = Listing.objects.filter(id=list_num)[0]
 		l.delete()
-		return HttpResponse("Listing with id " + str(list_num) + " deleted successfully")
+		d["status"] = "SUCCESS"
+		d["message"] = "LISTING DELETED SUCCESSFULLY"
+		return JsonResponse(d)
 
 	else:
-		return HttpResponse("Must be a GET/POST/DELETE request", status=400)
-
+		d["status"] = "FAILURE"
+		d["message"] = "THE HTTP REQUEST MUST BE GET/POST/DELETE"
+		return JsonResponse(d)
 
 
 #Check if object is a valid Listing
@@ -184,8 +206,11 @@ def isValidListing (request):
 #Create new Listing
 @csrf_exempt
 def listings_create(request):
+	d = {}
 	if request.method != "POST":
-		return HttpResponse("Must be a POST request", status=400)
+		d["status"] = "FAILURE"
+		d["message"] = "THE HTTP REQUEST MUST BE POST"
+		return JsonResponse(d)
 
 	if request.method == "POST":
 		if (isValidListing(request)):
@@ -203,6 +228,10 @@ def listings_create(request):
 
 			newListing = Listing(address=address, num_bedrooms=num_bedrooms, num_bathrooms=num_bathrooms, price=price, start_date=start_date, end_date=end_date, description=description, sold=sold, user=user)
 			newListing.save()
-			return HttpResponse("Listing created succesfully")
+			d["status"] = "SUCCESS"
+			d["message"] = "LISTING CREATED SUCCESSFULLY"
+			return JsonResponse(d)
 		else:
-			return HttpResponse("The listing you are trying to create is invalid", status=400)
+			d["status"] = "FAILURE"
+			d["message"] = "LISTING SENT IS INVALID"
+			return JsonResponse(d)
