@@ -27,7 +27,8 @@ def all_users(request):
 	if request.method != "GET":
 		d = dict()
 		d["status"] = "FAILED"
-		return JsonResponse(d)
+		d["message"] = "Request should be a GET request."
+		return JsonResponse(d, status=400)
 
 	queryset = CustomUser.objects.all().values()
 	arr = []
@@ -40,7 +41,9 @@ def all_users(request):
 
 		return JsonResponse(d)
 	else:
-		return HttpResponse("No users!", status=404)
+		d["status"] = "FAILED"
+		d["message"] = "No users currently."
+		return JsonResponse(d, status=400)
 
 #Check if object is a valid CustomUser
 @csrf_exempt
@@ -54,8 +57,12 @@ def isValidUser(request):
 @csrf_exempt
 def users_create(request):
 
+	d = dict()
+
 	if request.method != "POST":
-		return HttpResponse("Must be a POST request", status=400)
+		d["status"] = "FAILED"
+		d["message"] = "This should be a POST request."
+		return JsonResponse(d, status=400)
 
 	if request.method == "POST":
 		if (isValidUser(request)):
@@ -63,23 +70,35 @@ def users_create(request):
 			first_name = request.POST.get('first_name')
 			last_name = request.POST.get('last_name')
 			password = request.POST.get('password')
-
 			newUser = CustomUser(email=email, first_name=first_name, password=password, last_name=last_name)
 			newUser.save()
-			return HttpResponse("User created succesfully")
+			d["status"] = "SUCCESS"
+			d["message"] = "User created succesfully."
+			return JsonResponse(d)
 		else:
-			return HttpResponse("The user you are trying to create is invalid", status=404)
+			d["status"] = "FAILED"
+			d["message"] = "This should be a POST request."
+			return JsonResponse(d, status=400)
 
 
 @csrf_exempt
 def get_user(request, user):
+	d = dict()
+
 	if request.method == 'GET':
 		user_num = int(user)
 		if (len(CustomUser.objects.filter(id=user_num)) != 0):
-			user = CustomUser.objects.filter(id=user_num)[0]
-			return HttpResponse(json.dumps(user, default=lambda o: o.__dict__, sort_keys=True, indent=4))
+			userset = CustomUser.objects.filter(id=user_num).values()
+			arr = []
+			arr.append(userset[0])
+			d["status"] = "SUCCESS"
+			d["data"] = arr
+			return JsonResponse(d)
 		else:
-			return HttpResponse("Sorry, that user doesn't exist", status=404)
+			d["status"] = "FAILED"
+			d["message"] = "Sorry, that user doesn't exist"
+			return JsonResponse(d, status=400)
+			
 
 	elif request.method == "POST":
 		if (isValidUser(request)):
@@ -91,23 +110,35 @@ def get_user(request, user):
 				user.password = request.POST.get('password')
 				user.email = request.POST.get('email')
 				user.save()
-				return HttpResponse("User updated successfully")
+				d["status"] = "SUCCESS"
+				d["message"] = "User updated successfully"
+				return JsonResponse(d)	
 			else:
-				return HttpResponse("Sorry, that user does not exist", status=404)
+				d["status"] = "FAILED"
+				d["message"] = "Sorry, that user does not exist."
+				return JsonResponse(d, status=400)	
 		else:
-			return HttpResponse("The user you are trying to create is not valid", status=400)
+			d["status"] = "FAILED"
+			d["message"] = "Sorry, that user is not valid."
+			return JsonResponse(d, status=400)	
 
 	elif request.method == "DELETE":
 		user_num = int(user)
 		if (len(CustomUser.objects.filter(id=user_num)) == 0):
-			return HttpResponse("Sorry, that user does not exist", status=404)
+			d["status"] = "FAILED"
+			d["message"] = "Sorry, that user does not exist."
+			return JsonResponse(d, status=400)	
 
 		u = CustomUser.objects.filter(id=user_num)[0]
 		u.delete()
-		return HttpResponse("User with id " + str(user_num) + " deleted successfully")
+		d["status"] = "SUCCESS"
+		d["message"] = "User deleted successfully."
+		return JsonResponse(d, status=400)	
 
 	else:
-		return HttpResponse("Must be a GET/POST/DELETE request", status=400)
+		d["status"] = "SUCCESS"
+		d["message"] = "Request must be a GET/POST/DELETE request."
+		return JsonResponse(d, status=400)	
 
 
 #Get all Listings
