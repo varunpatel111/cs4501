@@ -1,0 +1,80 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Project 2 - About</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+	<center>
+		<h1>Project 2</h1>
+		<h2>By Arun Kanumuru, Ben Charles, and Varun Patel</h2>
+	</center>
+	<h3>ABOUT</h3>
+	<p>
+		Welcome to our project! Our idea is to create a marketplace to allow students to sublet their apartments to other students who are staying in Charlottesville over the summer. As of right now, 
+		we have two models: CustomUser and Listing. Below we have documented our models and how to call the CRUD methods.
+	</p>
+	<br>
+	<h3>MODELS</h3>
+		<h4>CustomUser</h4>
+			<p>
+				CustomUser has 4 fields: "first_name", "last_name", "email", and "password". email is an EmailField, and must be a valid email address. All other fields are strings. Passwords are not 
+				hashed as of now.
+			</p>
+			<p>
+				{"email": "email@gmail.com", "first_name": "John", "id": 1, "last_name": "Appleseed", "password": "Password123" }
+			</p>
+			<h4>Listing</h4>
+			<p>
+				Listing has 9 fields: "address", "num_bedrooms", "num_bathrooms", "price", "start_date", 
+				"end_date", "description", "sold", and "user". num_bedrooms, num_bathrooms, and price are integers. start_date and end_date are DateFields, and must be passed in as YYYY-MM-DD. sold
+				is a boolean, and user is the primary key of the associated user. All other fields are 
+				strings.
+			</p>
+			<p>
+				{"address": "1819 JPA", "description": "Cool place!", "end_date": { "day": 13, "month": 12, "year": 2010 }, "id": 1, "num_bathrooms": 3, "num_bedrooms": 5, "price": 1232, "sold": false, "start_date": { "day": 12, "month": 12, "year": 2010 }, "user_id": 1}
+			</p>
+	<br>
+	<h3>CREATE</h3>
+	<p>
+		To create a new user, submit a POST request to http://localhost:8001/api/users/create/ with all 4 fields.
+		<br>
+		To create a new user, submit a POST request to http://localhost:8001/api/listings/create/ with all 9 fields.
+	</p>
+	<h3>READ</h3>
+	<p>
+		To see all existing users, submit a GET request to http://localhost:8001/api/users/.
+		<br>
+		To see all existing listings, submit a GET request to http://localhost:8001/api/listings/.
+		<br>
+		<br>
+		To read an existing user, submit a GET request to http://localhost:8001/api/users/{pk}/, where "pk" is
+		the primary key of the user you want to get (without the brackets).
+		<br>
+		To read an existing listing, submit a GET request to http://localhost:8001/api/listings/{pk}/, where "pk" is the primary key of the listing you want to get (without the brackets).
+	</p>
+	<h3>UPDATE</h3>
+	<p>
+		To update an existing user, submit a POST request to http://localhost:8001/api/users/{pk}/ with all 4 fields, where "pk" is the primary key of the user you want to update (without the brackets).
+		<br>
+		To update an existing listing, submit a POST request to http://localhost:8001/api/listings/{pk}/ with all 9 fields, where "pk" is the primary key of the user you want to update (without the brackets).
+	</p>
+	<h3>DELETE</h3>
+	<p>
+		To delete an existing user, submit a DELETE method to http://localhost:8001/api/users/{pk}/, where "pk" is the primary key of the user you want to delete (without the brackets). 
+		<br>
+		To delete an existing listing, submit a DELETE method to http://localhost:8001/api/listings/{pk}/, where "pk" is the primary key of the listing you want to delete (without the brackets). 
+	</p>
+</body>
+</html>

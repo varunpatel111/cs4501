@@ -6,6 +6,7 @@ import json
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 import datetime
+from django.shortcuts import render
 
 
 def json_default(value):
@@ -13,6 +14,9 @@ def json_default(value):
         return dict(year=value.year, month=value.month, day=value.day)
     else:
         return value.__dict__
+
+def index(request):
+	return render(request, 'index.html', {})
 
 #Users
 

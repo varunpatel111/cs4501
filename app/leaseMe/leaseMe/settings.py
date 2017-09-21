@@ -55,7 +55,7 @@ ROOT_URLCONF = 'leaseMe.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'marketplace/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
