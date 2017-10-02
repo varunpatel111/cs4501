@@ -7,3 +7,22 @@ models:
     ports:
       - "8001:8000"
     command: bash -c "python /app/leaseMe/manage.py makemigrations marketplace && python /app/leaseMe/manage.py migrate marketplace && python /app/leaseMe/manage.py loaddata /app/leaseMe/db.json && mod_wsgi-express start-server --working-directory /app/leaseMe --reload-on-changes /app/leaseMe/leaseMe/wsgi.py"
+exp:
+    image: tp33/django
+    links:
+      -  models:models-api
+    ports:
+      -  "8002:8000"
+    volumes:
+      - ./app:/app
+    command: "mod_wsgi-express start-server --reload-on-changes stuff-exp/wsgi.py"
+
+web:
+   image: tp33/django
+   links:
+      - exp:exp-api
+   ports:
+      - "8000:8000"
+   volumes:
+      - ./app:/app
+   command: "mod_wsgi-express start-server --reload-on-changes stuff-web/wsgi.py"
