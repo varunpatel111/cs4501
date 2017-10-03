@@ -70,6 +70,7 @@ def users_create(request):
 			password = request.POST.get('password')
 			newUser = CustomUser(email=email, first_name=first_name, password=password, last_name=last_name)
 			newUser.save()
+			d["id"] = newUser.id
 			d["status"] = "SUCCESS"
 			d["message"] = "User created succesfully."
 			return JsonResponse(d)
@@ -257,6 +258,7 @@ def listings_create(request):
 
 			newListing = Listing(address=address, num_bedrooms=num_bedrooms, num_bathrooms=num_bathrooms, price=price, start_date=start_date, end_date=end_date, description=description, sold=sold, user=user)
 			newListing.save()
+			d["id"] = newListing.id
 			d["status"] = "SUCCESS"
 			d["message"] = "LISTING CREATED SUCCESSFULLY"
 			return JsonResponse(d)
