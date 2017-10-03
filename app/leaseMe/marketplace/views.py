@@ -16,8 +16,6 @@ def json_default(value):
     else:
         return value.__dict__
 
-def index(request):
-	return render(request, 'index.html', {})
 
 #Users
 
@@ -98,7 +96,7 @@ def get_user(request, user):
 			d["status"] = "FAILED"
 			d["message"] = "Sorry, that user doesn't exist"
 			return JsonResponse(d, status=400)
-			
+
 
 	elif request.method == "POST":
 		if (isValidUser(request)):
@@ -112,33 +110,33 @@ def get_user(request, user):
 				user.save()
 				d["status"] = "SUCCESS"
 				d["message"] = "User updated successfully"
-				return JsonResponse(d)	
+				return JsonResponse(d)
 			else:
 				d["status"] = "FAILED"
 				d["message"] = "Sorry, that user does not exist."
-				return JsonResponse(d, status=400)	
+				return JsonResponse(d, status=400)
 		else:
 			d["status"] = "FAILED"
 			d["message"] = "Sorry, that user is not valid."
-			return JsonResponse(d, status=400)	
+			return JsonResponse(d, status=400)
 
 	elif request.method == "DELETE":
 		user_num = int(user)
 		if (len(CustomUser.objects.filter(id=user_num)) == 0):
 			d["status"] = "FAILED"
 			d["message"] = "Sorry, that user does not exist."
-			return JsonResponse(d, status=400)	
+			return JsonResponse(d, status=400)
 
 		u = CustomUser.objects.filter(id=user_num)[0]
 		u.delete()
 		d["status"] = "SUCCESS"
 		d["message"] = "User deleted successfully."
-		return JsonResponse(d, status=400)	
+		return JsonResponse(d, status=400)
 
 	else:
 		d["status"] = "SUCCESS"
 		d["message"] = "Request must be a GET/POST/DELETE request."
-		return JsonResponse(d, status=400)	
+		return JsonResponse(d, status=400)
 
 
 #Get all Listings

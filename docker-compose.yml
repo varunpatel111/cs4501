@@ -16,8 +16,7 @@ exp:
       - "8002:8000"
    volumes:
       - ./app:/app
-   command: "mod_wsgi-express start-server --reload-on-changes /app/leaseMe/leaseMe/wsgi.py"
-
+   command: "mod_wsgi-express start-server --working-directory /app/exp --reload-on-changes /app/exp/exp/wsgi.py"
 web:
    image: tp33/django
    links:
@@ -26,4 +25,4 @@ web:
       - "8000:8000"
    volumes:
       - ./app:/app
-   command: "mod_wsgi-express start-server --reload-on-changes /app/leaseMe/leaseMe/wsgi.py"
+   command: "mod_wsgi-express start-server --working-directory /app/web --reload-on-changes /app/web/web/wsgi.py"
