@@ -148,7 +148,8 @@ def all_listings(request):
 		d["message"] = "MUST BE A GET REQUEST"
 		return JsonResponse(d, status=404)
 
-	queryset = Listing.objects.all().values()
+	queryset = Listing.objects.all().values().order_by('start_date')
+
 	arr = []
 	for obj in queryset:
 		arr.append(obj)
