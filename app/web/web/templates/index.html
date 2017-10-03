@@ -17,19 +17,19 @@
 
 <body>
 	<center>
-		<h1>Project 2</h1>
+		<h1>LeaseMe</h1>
 		<h2>By Arun Kanumuru, Ben Charles, and Varun Patel</h2>
 	</center>
 	<h3>ABOUT</h3>
 	<p>
-		Welcome to our project! Our idea is to create a marketplace to allow students to sublet their apartments to other students who are staying in Charlottesville over the summer. As of right now, 
+		Welcome to our project! Our idea is to create a marketplace to allow students to sublet their apartments to other students who are staying in Charlottesville over the summer. As of right now,
 		we have two models: CustomUser and Listing. Below we have documented our models and how to call the CRUD methods.
 	</p>
 	<br>
 	<h3>MODELS</h3>
 		<h4>CustomUser</h4>
 			<p>
-				CustomUser has 4 fields: "first_name", "last_name", "email", and "password". email is an EmailField, and must be a valid email address. All other fields are strings. Passwords are not 
+				CustomUser has 4 fields: "first_name", "last_name", "email", and "password". email is an EmailField, and must be a valid email address. All other fields are strings. Passwords are not
 				hashed as of now.
 			</p>
 			<p>
@@ -37,9 +37,9 @@
 			</p>
 			<h4>Listing</h4>
 			<p>
-				Listing has 9 fields: "address", "num_bedrooms", "num_bathrooms", "price", "start_date", 
+				Listing has 9 fields: "address", "num_bedrooms", "num_bathrooms", "price", "start_date",
 				"end_date", "description", "sold", and "user". num_bedrooms, num_bathrooms, and price are integers. start_date and end_date are DateFields, and must be passed in as YYYY-MM-DD. sold
-				is a boolean, and user is the primary key of the associated user. All other fields are 
+				is a boolean, and user is the primary key of the associated user. All other fields are
 				strings.
 			</p>
 			<p>
@@ -72,9 +72,9 @@
 	</p>
 	<h3>DELETE</h3>
 	<p>
-		To delete an existing user, submit a DELETE method to http://localhost:8001/api/users/{pk}/, where "pk" is the primary key of the user you want to delete (without the brackets). 
+		To delete an existing user, submit a DELETE method to http://localhost:8001/api/users/{pk}/, where "pk" is the primary key of the user you want to delete (without the brackets).
 		<br>
-		To delete an existing listing, submit a DELETE method to http://localhost:8001/api/listings/{pk}/, where "pk" is the primary key of the listing you want to delete (without the brackets). 
+		To delete an existing listing, submit a DELETE method to http://localhost:8001/api/listings/{pk}/, where "pk" is the primary key of the listing you want to delete (without the brackets).
 	</p>
 </body>
 </html>

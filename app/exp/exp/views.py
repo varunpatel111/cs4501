@@ -10,8 +10,10 @@ import urllib.request
 import urllib.parse
 
 
-def test(request):
+def homePage(request):
     print ("About to perform the GET request...")
 
-    req = urllib.request.Request('http://models-api:8000/')
-    return HttpResponse(req)
+    req = urllib.request.Request('http://models-api:8000/api/listings')
+    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    resp = json.loads(resp_json)
+    return JsonResponse(resp)
