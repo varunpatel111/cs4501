@@ -1,0 +1,43 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title> Lease.me</title>
+  <center>
+    <h1> Lease.me </h1>
+    <h2> The only destination for all your UVa sub-leasing needs </h2>
+  </center>
+</head>
+<body>
+<center><h3> Here's some upcoming listings... </h3></center>
+
+<table style="width: 100%">
+<tr>
+{% for listing in data %}
+{%if forloop.counter0|divisibleby:3%}
+<tr>
+  {%endif%}
+<td>
+  <div align="center">
+<div style="display: inline-block">
+  <img src="https://i.pinimg.com/736x/7f/be/50/7fbe50ec634c65709d7fe6ac267c4e6f--large-garage-plans-house-plans-large-family.jpg" style="width:256px;height:256 px;"/>
+</div>
+
+<div style="display: inline-block">
+<p> Start Date: {{listing.start_date}} </p>
+<p> End Date: {{listing.end_date}} </p>
+<p> Price: {{listing.price}} </p>
+</div>
+</div>
+</td>
+
+{%if forloop.counter0|add:1|divisibleby:3%}
+</tr>
+{%endif%}
+
+{%endfor%}
+</tr>
+</table>
+</body>
