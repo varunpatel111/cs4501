@@ -23,12 +23,17 @@
   <div align="center">
 <div style="display: inline-block">
   <img src="https://i.pinimg.com/736x/7f/be/50/7fbe50ec634c65709d7fe6ac267c4e6f--large-garage-plans-house-plans-large-family.jpg" style="width:256px;height:256 px;"/>
+  <br><br><br>
 </div>
 
-<div style="display: inline-block">
+<div style="display: inline-block; vertical-align: top;">
 <p> Start Date: {{listing.start_date}} </p>
 <p> End Date: {{listing.end_date}} </p>
 <p> Price: {{listing.price}} </p>
+<br><br>
+<form action="http://localhost:8000/listings/{{listing.id}}">
+    <input type="submit" value="See More" />
+</form>
 </div>
 </div>
 </td>
