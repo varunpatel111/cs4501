@@ -18,6 +18,7 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.homePage),
-    url(r'^api/$', views.apiInfo),
+	url(r'^$', views.homePage),
+	url(r'^listings/(?P<listing>[0-9]+)/$', views.get_listing),
+	url(r'^api/$', views.apiInfo),
 ]

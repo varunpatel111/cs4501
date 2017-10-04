@@ -18,5 +18,6 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^api/homePage', views.homePage),
+	url(r'^api/homePage', views.homePage),
+	url(r'^api/listingPage/(?P<listing>[0-9]+)/$', views.get_listing),
 ]

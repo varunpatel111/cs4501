@@ -24,3 +24,12 @@ def homePage(request):
 	rows = math.ceil(len(data)/3)
 
 	return render(request, 'homepage.html', {'data': data}, {'rows': rows})
+
+def get_listing(request, listing):
+	s = "http://exp-api:8000/api/listingPage/" + listing + "/"
+	req = urllib.request.Request(s)
+	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+	resp = json.loads(resp_json)
+
+	return JsonResponse(resp)
+#return render(request, 'homepage.html', {'data': data}, {'rows': rows})
