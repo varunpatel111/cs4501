@@ -2,29 +2,40 @@
 
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Alegreya" rel="stylesheet">
+
   <meta charset="utf-8">
 
   <title> Lease.me</title>
   <center>
-    <h1> Lease.me </h1>
-    <h2> The only destination for all your UVa sub-leasing needs </h2>
+    <div style="background-color: lightblue; position: relative; top: -20px;">
+      <br>
+      <h1 style="font-family: 'Lobster', cursive; font-size: 500%;"> Lease.me </h1>
+      <h2 style="font-family: 'Alegreya', serif;"> The only destination for all your UVa sub-leasing needs </h2>
+      <br>
+    </div>
   </center>
 </head>
-<body><center>
-  <br>
-  <br>
-  
-  <h3>
-    {% if data.listing.sold %}
+<body style="background-color: #ffd289;"><center>
+  <h3 style="font-family: 'Lobster', cursive;">
+    <p style="font-size: 175%;">
+      {% if data.listing.sold %}
       This listing has already been sold
     {% else %}
       Still Available!
     {% endif %}
     <br>
-    Seller: {{data.user.first_name}} {{data.user.last_name}}
+  </p>
+    <p style="font-family: 'Alegreya', serif;"> Seller: {{data.user.first_name}} {{data.user.last_name}} </p>
   </h3>
-
-  <h4>
+  <div style="display: inline-block">
+    <img src="https://i.pinimg.com/736x/7f/be/50/7fbe50ec634c65709d7fe6ac267c4e6f--large-garage-plans-house-plans-large-family.jpg" style="width:256px;height:256 px;"/>
+    <br><br>
+  </div>
+  <h4 style="font-family: 'Alegreya', serif; font-size: 155%;">
     Address: {{data.listing.address}}
     <br>
     Available from: {{data.listing.start_date}} to {{data.listing.end_date}}
@@ -36,6 +47,16 @@
     Bathrooms: {{data.listing.num_bathrooms}}
     <br>
     {{data.listing.description}}
+    <br>
+    <br>
+    <form action="http://localhost:8000/users/{{data.user.id}}">
+        <input type="submit" value="Contact {{data.user.first_name}} {{data.user.last_name}}" />
+    </form>
+    <br>
+    <form action="http://localhost:8000/">
+        <input type="submit" value="See More Listings" />
+    </form>
+
   </h4>
 
 </center></body>

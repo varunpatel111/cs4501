@@ -20,5 +20,6 @@ from . import views
 urlpatterns = [
 	url(r'^$', views.homePage),
 	url(r'^listings/(?P<listing>[0-9]+)/$', views.get_listing),
+    url(r'^users/(?P<user>[0-9]+)/$', views.get_user),
 	url(r'^api/$', views.apiInfo),
 ]

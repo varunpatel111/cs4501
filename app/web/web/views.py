@@ -21,9 +21,7 @@ def homePage(request):
 
 	data = resp["data"]
 
-	rows = math.ceil(len(data)/3)
-
-	return render(request, 'homepage.html', {'data': data}, {'rows': rows})
+	return render(request, 'homepage.html', {'data': data})
 
 def get_listing(request, listing):
 	s = "http://exp-api:8000/api/listingPage/" + listing + "/"
@@ -49,3 +47,11 @@ def get_listing(request, listing):
 
 	return render(request, 'listing.html',  {'data': all_data})
 
+def get_user(request, user):
+	req = urllib.request.Request("http://exp-api:8000/api/userPage/" + str(user) + "/")
+	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+	resp = json.loads(resp_json)
+
+	data = resp["data"]
+
+	return render(request, 'users.html', {'data': data})

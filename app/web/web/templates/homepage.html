@@ -3,17 +3,27 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Alegreya" rel="stylesheet">
 
   <title> Lease.me</title>
   <center>
-    <h1> Lease.me </h1>
-    <h2> The only destination for all your UVa sub-leasing needs </h2>
+    <div style="background-color: lightblue; position: relative; top: -20px;">
+      <br>
+      <h1 style="font-family: 'Lobster', cursive; font-size: 500%;"> Lease.me </h1>
+      <h2 style="font-family: 'Alegreya', serif;"> The only destination for all your UVa sub-leasing needs </h2>
+      <br><br>
+    </div>
   </center>
 </head>
-<body>
-<center><h3> Here's some upcoming listings... </h3></center>
-
-<table style="width: 100%">
+<body style="background-color: #ffd289;">
+  <br>
+<center><h3 style="font-family: 'Alegreya', serif; font-size: 250%;"> Here's some upcoming listings... </h3></center>
+<br><br>
+<center>
+<table style="width: 85%">
 <tr>
 {% for listing in data %}
 {%if forloop.counter0|divisibleby:3%}
@@ -22,7 +32,7 @@
 <td>
   <div align="center">
 <div style="display: inline-block">
-  <img src="https://i.pinimg.com/736x/7f/be/50/7fbe50ec634c65709d7fe6ac267c4e6f--large-garage-plans-house-plans-large-family.jpg" style="width:256px;height:256 px;"/>
+  <img src="https://i.pinimg.com/736x/7f/be/50/7fbe50ec634c65709d7fe6ac267c4e6f--large-garage-plans-house-plans-large-family.jpg" style="width:200px;"/>
   <br><br><br>
 </div>
 
@@ -45,4 +55,5 @@
 {%endfor%}
 </tr>
 </table>
+</center>
 </body>
