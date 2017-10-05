@@ -20,7 +20,6 @@ def json_default(value):
 #Users
 
 #Get all CustomUsers
-@csrf_exempt
 def all_users(request):
 	if request.method != "GET":
 		d = dict()
@@ -44,7 +43,6 @@ def all_users(request):
 		return JsonResponse(d, status=400)
 
 #Check if object is a valid CustomUser
-@csrf_exempt
 def isValidUser(request):
 	if (request.POST.get('email') and request.POST.get('first_name') and request.POST.get('last_name') and request.POST.get('password')):
 		return True
@@ -52,7 +50,6 @@ def isValidUser(request):
 		return False
 
 #Create a new CustomUser
-@csrf_exempt
 def users_create(request):
 
 	d = dict()
@@ -80,7 +77,6 @@ def users_create(request):
 			return JsonResponse(d, status=400)
 
 
-@csrf_exempt
 def get_user(request, user):
 	d = dict()
 
@@ -163,7 +159,6 @@ def all_listings(request):
 		return JsonResponse(d, status=404)
 
 #Get a single Listing (0, 1, 2...)
-@csrf_exempt
 def get_listing(request, listing):
 	d = {}
 	if request.method == "GET":
@@ -225,7 +220,6 @@ def get_listing(request, listing):
 
 
 #Check if object is a valid Listing
-@csrf_exempt
 def isValidListing (request):
 	if (request.POST.get('address') and request.POST.get('num_bedrooms') and request.POST.get('num_bathrooms') and request.POST.get('price') and request.POST.get('start_date') and request.POST.get('end_date') and request.POST.get('description') and request.POST.get('sold') and request.POST.get('user') ):
 		user_num = int(request.POST.get('user'))
@@ -235,7 +229,6 @@ def isValidListing (request):
 		return False
 
 #Create new Listing
-@csrf_exempt
 def listings_create(request):
 	d = {}
 	if request.method != "POST":

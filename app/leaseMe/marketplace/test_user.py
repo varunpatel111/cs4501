@@ -56,7 +56,7 @@ class GetUser(TestCase):
 	def tearDown(self):
 		pass
 
-class GetListing(TestCase):
+class DeleteUser(TestCase):
     #setUp method is called before each test in this class
 	def setUp(self):
 		self.c = Client()
