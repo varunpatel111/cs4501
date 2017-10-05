@@ -7,77 +7,25 @@ from marketplace import views
 import urllib.request
 import urllib.parse
 
-
-class CreateUser(TestCase):
+class CreateValidListing(TestCase):
+	
     #setUp method is called before each test in this class
 	def setUp(self):
 		self.c = Client()
-		self.response = self.c.post('/api/users/create/', {'email': 'varunpatel@gmail.com', 'password': 'mynamisv', 'first_name': 'Varun','last_name': 'Patel'})
-		self.response2 = self.c.post('/api/users/create/', {'email': 'varunpatel@gmail.com', 'password': 'mynamisv', 'last_name': 'Patel'})
-		self.r = self.response.json()
-		self.r2 = self.response2.json()
-	def test_success_response(self):
-		self.assertEquals(self.r['status'], "SUCCESS")
+		self.resUser = self.c.post('/api/users/create/', {'email': 'dor@gmail.com', 'password': 'mynamisv', 'first_name': 'Varun','last_name': 'fried'}).json()
+		self.resListSuccess = self.c.post('/api/listings/create/', {'address': '678 Merry Ln.', 'num_bedrooms': 8, 'num_bathrooms': 3, 'price': 290, 'start_date': '2017-06-04', 'end_date': '2017-09-04', 'description': 'Beautiful place on JPA!', 'sold': True, 'user': 1}).json()
+		self.resListFailure = self.c.post('/api/listings/create/', {'address': '123 Happy St.', 'num_bedrooms': 4, 'num_bathrooms': 2, 'price': 650, 'start_date': '2017-06-01', 'description': 'Beautiful place on the corner!', 'user': 1}).json()
 
-    #user_id not given in url, so error
-	def test_fails_invalid(self):
-		self.assertEquals(self.r2['status'], "FAILED")
-		self.assertEquals(self.response2.status_code, 400)
+	def test_success_response(self):
+		#response = self.c.post('/api/listings/create/', {'address': '678 Merry Ln.', 'num_bedrooms': 8, 'num_bathrooms': 3, 'price': 290, 'start_date': '2017-06-04', 'end_date': '2017-09-04', 'description': 'Beautiful place on JPA!', 'sold': True, 'user': 1}).json()
+		self.assertEquals(self.resListSuccess['status'], "SUCCESS")
+
+	def test_failure_response(self):
+		#response = self.c.post('/api/listings/create/', {'address': '123 Happy St.', 'num_bedrooms': 4, 'num_bathrooms': 2, 'price': 650, 'start_date': '2017-06-01', 'description': 'Beautiful place on the corner!', 'user': 1}).json()
+		self.assertEquals(self.resListFailure['status'], "FAILURE")
 
     #tearDown method is called after each test
 	def tearDown(self):
+		self.resUser = self.c.delete('/api/users/1/').json()
 		pass
 
-class GetUser(TestCase):
-    #setUp method is called before each test in this class
-	def setUp(self):
-		self.c = Client()
-		self.response = self.c.post('/api/users/create/', {'email': 'varunpatel@gmail.com', 'password': 'mynamisv', 'first_name': 'Varun','last_name': 'Patel'})
-		iD = self.response.json()['id']
-		string = '/api/users/' + str(iD) + '/'
-		self.response = self.c.get(string)
-		self.r = self.response.json()
-
-		self.response2 = self.c.post('/api/users/create/', {'email': 'varunpatel@gmail.com', 'password': 'mynamisv', 'first_name': 'Varun','last_name': 'Patel'})
-		iD = int(self.response2.json()['id']) + 100
-		string = '/api/users/' + str(iD) + '/'
-		self.response2 = self.c.get(string)
-		self.r2 = self.response2.json()
-
-	def test_success_response(self):
-		self.assertEquals(self.r['status'], "SUCCESS")
-
-    #user_id not given in url, so error
-	def test_fails_invalid(self):
-		self.assertEquals(self.r2['status'], "FAILED")
-
-    #tearDown method is called after each test
-	def tearDown(self):
-		pass
-
-class GetListing(TestCase):
-    #setUp method is called before each test in this class
-	def setUp(self):
-		self.c = Client()
-		self.response = self.c.post('/api/users/create/', {'email': 'varunpatel@gmail.com', 'password': 'mynamisv', 'first_name': 'Varun','last_name': 'Patel'})
-		iD = self.response.json()['id']
-		string = '/api/users/' + str(iD) + '/'
-		self.response = self.c.delete(string)
-		self.r = self.response.json()
-
-		self.response2 = self.c.post('/api/users/create/', {'email': 'varunpatel@gmail.com', 'password': 'mynamisv', 'first_name': 'Varun','last_name': 'Patel'})
-		iD = int(self.response2.json()['id']) + 100
-		string = '/api/users/' + str(iD) + '/'
-		self.response2 = self.c.delete(string)
-		self.r2 = self.response2.json()
-
-	def test_success_response(self):
-		self.assertEquals(self.r['status'], "SUCCESS")
-
-    #user_id not given in url, so error
-	def test_fails_invalid(self):
-		self.assertEquals(self.r2['status'], "FAILED")
-
-    #tearDown method is called after each test
-	def tearDown(self):
-		pass
