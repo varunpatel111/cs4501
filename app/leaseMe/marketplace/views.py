@@ -92,7 +92,7 @@ def get_user(request, user):
 		else:
 			d["status"] = "FAILED"
 			d["message"] = "Sorry, that user doesn't exist"
-			return JsonResponse(d, status=400)
+			return JsonResponse(d)
 
 
 	elif request.method == "POST":
@@ -173,7 +173,7 @@ def get_listing(request, listing):
 		else:
 			d["status"] = "FAILED"
 			d["message"] = "THAT LISTING DOESN'T EXIST"
-			return JsonResponse(d,  status=404)
+			return JsonResponse(d)
 
 	elif request.method == "POST":
 		if (isValidListing(request)):
