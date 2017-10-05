@@ -1,0 +1,15 @@
+User Stories for Project 3
+
+Arun Kanumuru, Ben Charles, Varun Patel
+
+1) As a user, I would like to view the postings who's start dates are nearest on the home page
+
+2) As a user, if I click on a particular posting on the home page, I would like to find more information about that posting
+
+3) As a user, I would like a fast and easy way to contact the user who created the listing I'm interested in
+
+4) As a seller, I would like to create, modify, and delete listings that I may have available.
+
+6) As a user, I would like to be able to update my account information at any time
+
+7) As a seller, I would like to upload multiple pictures of the listing I am posting
