@@ -13,3 +13,16 @@ Arun Kanumuru, Ben Charles, Varun Patel
 6) As a user, I would like to be able to update my account information at any time, if my email changes, I need to be able to still contact other people on the website
 
 7) As a seller, I would like to upload multiple pictures of the listing I am posting, in order to provide a more wholesome view of the listing I am offering.
+
+// User Authentication, Login, Logout, Create Listing (Project 4)
+
+8) As a logged in user I can see all pages except the Login page. I then click logout on the menu which lets me logout of the system
+
+9) As a logged in user, I can create a listing on the Create Listing page.
+
+10) As a user who isn't logged in, I cannot view the Logout page. If I were to try and go to the Create Listing page, it would lead me to the Login Page.
+
+11) As a user who isn't logged in and does not have an account, the Login page should contain a link to the Create User page where I can create a user. Once I create a user, this should lead
+me to the Home Page
+
+12) As a user who's been logged in for an X amount of time without any action, I should be logged out.
