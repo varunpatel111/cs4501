@@ -31,3 +31,21 @@ def get_user(request, user):
 	resp = json.loads(resp_json)
 	return JsonResponse(resp)
 
+def newListingForm(request):
+	s = "http://models-api:8000/api/listings/createForm/"
+	req = urllib.request.Request(s)
+	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+	resp = json.loads(resp_json)
+	return JsonResponse(resp)
+
+def createListing(request):
+	#return HttpResponse("hell")
+	d = {}
+	d["message"] = "hello world"
+	return JsonResponse(d)
+
+
+
+	
+
+

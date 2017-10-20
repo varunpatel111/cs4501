@@ -8,10 +8,10 @@ import datetime
 from django.shortcuts import render
 import urllib.request
 import urllib.parse
+import urllib2
 import math
 
 def apiInfo(request):
-
 	return render(request, 'index.html')
 
 def homePage(request):
@@ -53,3 +53,36 @@ def get_user(request, user):
 		return render(request, 'users.html', {'data': data})
 	else:
 		return render(request, 'Error.html')
+
+def create_listing_form(request):
+	#if request.method == "GET":
+		req = urllib.request.Request("http://exp-api:8000/api/newListing/")
+		resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+		resp = json.loads(resp_json)
+		return HttpResponse(resp["html"])
+	#else:
+#		url = "http://exp-api:8000/api/createListing/"
+#		data = urllib.urlencode(request.POST)
+#		req = urllib2.Request(url, data)
+#		resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+#		resp = json.loads(resp_json)
+		#resp = requests.post(url, data=data)
+#		return JsonResponse(resp)
+		#req = urllib.request.Request(url)
+		#resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+		#resp = json.loads(resp_json)
+		#return JsonResponse(request.POST)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

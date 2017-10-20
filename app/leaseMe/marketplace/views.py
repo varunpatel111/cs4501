@@ -8,6 +8,8 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 import datetime
 from django.shortcuts import render
+from .forms import ListingForm
+from django.template.loader import render_to_string
 
 
 def json_default(value):
@@ -260,3 +262,11 @@ def listings_create(request):
 			d["status"] = "FAILURE"
 			d["message"] = "LISTING SENT IS INVALID"
 			return JsonResponse(d)
+
+def new_listing_form(request):
+	d = {}
+	form = ListingForm()
+	#html = render(request, 'form.html', {'form': form})
+	html = render_to_string('form.html', { 'form': form })
+	d["html"] = html
+	return JsonResponse(d)
