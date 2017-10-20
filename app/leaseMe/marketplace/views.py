@@ -73,7 +73,7 @@ def all_authenticators(request):
 
 #Check if object is a valid CustomUser
 def isValidUser(request):
-	if (request.POST.get('email') and request.POST.get('first_name') and request.POST.get('last_name') and request.POST.get('password')):
+	if (request.POST.get('email') and request.POST.get('first_name') and request.POST.get('last_name') and request.POST.get('password') and request.POST.get('username')):
 		return True
 	else:
 		return False
@@ -81,13 +81,20 @@ def isValidUser(request):
 
 def isValidAuthenticator(request):
     if (request.POST.get('user')):
-        return True
+        user = (request.POST.get('user'))
+        user_num = int(user)
+        if (len(CustomUser.objects.filter(id=user_num)) == 0):
+            return False
+        if (authenticate(request, user_num)):
+            return False
+        else:
+            return True
     else:
         return False
 
 # Create a new authenticator
 
-def authenticators_create(request):
+def login(request):
     d = dict()
     if request.method != "POST":
         d["status"] = "FAILED"
@@ -102,6 +109,8 @@ def authenticators_create(request):
             date_created = datetime.now()
             key = '0!i@++*n5lxns$^f=zl5(48a(g^0f%b71mn%7^6w%06=kmlzs6'
             authenticator = hmac.new(key = key.encode('utf-8'),msg = os.urandom(32),digestmod = 'sha256').hexdigest()
+            while (len(Authenticator.objects.filter(authenticator=authenticator)) != 0):
+                authenticator = hmac.new(key = key.encode('utf-8'),msg = os.urandom(32),digestmod = 'sha256').hexdigest()
             newAuthenticator = Authenticator(user_id=user, date_created=date_created, authenticator=authenticator)
             newAuthenticator.save()
             d["id"] = newAuthenticator.id
@@ -110,37 +119,66 @@ def authenticators_create(request):
             return JsonResponse(d)
         else:
             d["status"] = "FAILED"
-            d["message"] = "This should be a valid POST request (your fields might not be correct)."
+            d["message"] = "Either the fields are incorrect or that user authentication exists!"
             return JsonResponse(d, status=400)
+
+def logout(request, user):
+    d = {}
+    if request.method == "DELETE":
+        user_num = int(user)
+        if (len(Authenticator.objects.filter(user_id=user_num)) == 0):
+            d["status"] = "FAILED"
+            d["message"] = "THAT AUTHENTICATOR DOESN'T EXIST"
+            return JsonResponse(d,  status=404)
+        A = Authenticator.objects.filter(user_id=user_num)[0]
+        A.delete()
+        d["status"] = "SUCCESS"
+        d["message"] = "AUTHENTICATOR DELETED SUCCESSFULLY"
+        return JsonResponse(d)
+    else:
+        d["status"] = "FAILED"
+        d["message"] = "This should be a DELETE request."
+        return JsonResponse(d, status=400)
+
+# Authenticate
+
+def authenticate(request, user):
+    if(len(Authenticator.objects.filter(user_id_id=user)) != 0):
+        return True
+    else:
+        return False
 
 
 
 #Create a new CustomUser
 def users_create(request):
-
-	d = dict()
-
-	if request.method != "POST":
-		d["status"] = "FAILED"
-		d["message"] = "This should be a POST request."
-		return JsonResponse(d, status=400)
-
-	if request.method == "POST":
-		if (isValidUser(request)):
-			email = request.POST.get('email')
-			first_name = request.POST.get('first_name')
-			last_name = request.POST.get('last_name')
-			password = request.POST.get('password')
-			newUser = CustomUser(email=email, first_name=first_name, password=password, last_name=last_name)
-			newUser.save()
-			d["id"] = newUser.id
-			d["status"] = "SUCCESS"
-			d["message"] = "User created succesfully."
-			return JsonResponse(d)
-		else:
-			d["status"] = "FAILED"
-			d["message"] = "This should be a POST request."
-			return JsonResponse(d, status=400)
+    d = dict()
+    if request.method != "POST":
+        d["status"] = "FAILED"
+        d["message"] = "This should be a POST request."
+        return JsonResponse(d, status=400)
+    if request.method == "POST":
+        if (isValidUser(request)):
+            if (len(CustomUser.objects.filter(username=request.POST.get('username'))) == 0):
+                email = request.POST.get('email')
+                username = request.POST.get('username')
+                first_name = request.POST.get('first_name')
+                last_name = request.POST.get('last_name')
+                password = request.POST.get('password')
+                newUser = CustomUser(username=username, email=email, first_name=first_name, password=password, last_name=last_name)
+                newUser.save()
+                d["id"] = newUser.id
+                d["status"] = "SUCCESS"
+                d["message"] = "User created succesfully."
+                return JsonResponse(d)
+            else:
+                d["status"] = "FAILED"
+                d["message"] = "This username already exists"
+                return JsonResponse(d, status=400)
+        else:
+            d["status"] = "FAILED"
+            d["message"] = "This should be a POST request."
+            return JsonResponse(d, status=400)
 
 
 def get_user(request, user):
