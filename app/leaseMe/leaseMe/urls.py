@@ -30,9 +30,11 @@ urlpatterns = [
     url(r'^api/listings/$', views.all_listings),
     url(r'^api/listings/(?P<listing>[0-9]+)/$', views.get_listing),
     url(r'^api/listings/create/$', views.listings_create),
-    url(r'^api/authenticators/create/$', views.authenticators_create),
+    url(r'^api/login/$', views.login),
+    url(r'^api/logout/(?P<user>[0-9]+)/$', views.logout),
     url(r'^api/authenticators/$', views.all_authenticators),
-
+    url(r'^api/authenticate/(?P<user>[0-9]+)/$', views.authenticate),
+    #url(r'^api/validateUser/$', views.validateUser),
     #url(r'^users/(?P<pk>[0-9]+)/', views.CustomUserDetail.as_view()),
     #url(r'^users', views.CustomUserList.as_view()),
     #url(r'^listings', views.ListingList.as_view()),
