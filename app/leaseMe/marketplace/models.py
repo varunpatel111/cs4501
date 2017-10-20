@@ -22,3 +22,7 @@ class Listing(models.Model):
 	sold = models.BooleanField(default=False)
 	user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
+class Authenticator(models.Model):
+	user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+	authenticator = models.CharField(max_length=256)
+	date_created = models.DateTimeField()
