@@ -31,6 +31,8 @@ urlpatterns = [
     url(r'^api/listings/(?P<listing>[0-9]+)/$', views.get_listing),
     url(r'^api/listings/create/$', views.listings_create),
     url(r'^api/listings/createForm/$', views.new_listing_form),
+    url(r'^api/authenticators/create/$', views.authenticators_create),
+    url(r'^api/authenticators/$', views.all_authenticators),
     #url(r'^users/(?P<pk>[0-9]+)/', views.CustomUserDetail.as_view()),
     #url(r'^users', views.CustomUserList.as_view()),
     #url(r'^listings', views.ListingList.as_view()),
