@@ -40,7 +40,11 @@ urlpatterns = [
     url(r'^api/authenticators/$', views.all_authenticators),
     url(r'^api/authenticate/(?P<user>[0-9]+)/$', views.authenticate),
     #url(r'^api/validateUser/$', views.validateUser),
+<<<<<<< HEAD
 >>>>>>> added username and other models apis
+=======
+    url(r'^api/listings/createForm/$', views.new_listing_form),
+>>>>>>> add create listing form
     #url(r'^users/(?P<pk>[0-9]+)/', views.CustomUserDetail.as_view()),
     #url(r'^users', views.CustomUserList.as_view()),
     #url(r'^listings', views.ListingList.as_view()),
