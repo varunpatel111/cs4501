@@ -91,6 +91,7 @@ def login(request):
                 d["id"] = newAuthenticator.id
                 d["status"] = "SUCCESS"
                 d["message"] = "Authenticator created successfully"
+                d["authenticator"] = authenticator
                 return JsonResponse(d)
             else:
                 d["status"] = "FAILED"
@@ -103,22 +104,22 @@ def login(request):
 
 
 def actualUser(username, password):
-    if(len(CustomUser.objects.filter(username=username)) is 0):
+    if(len(CustomUser.objects.filter(username=username)) == 0):
         return False
     else:
         return CustomUser.objects.filter(username=username)[0].password == password
 
 
 
-def logout(request, user):
+def logout(request):
     d = {}
-    if request.method == "DELETE":
-        user_num = int(user)
-        if (len(Authenticator.objects.filter(user_id=user_num)) == 0):
+    if request.method == "POST":
+        authenticator = request.POST.get('authenticator')
+        if (len(Authenticator.objects.filter(authenticator=authenticator)) == 0):
             d["status"] = "FAILED"
             d["message"] = "THAT AUTHENTICATOR DOESN'T EXIST"
             return JsonResponse(d,  status=404)
-        A = Authenticator.objects.filter(user_id=user_num)[0]
+        A = Authenticator.objects.filter(authenticator=authenticator)[0]
         A.delete()
         d["status"] = "SUCCESS"
         d["message"] = "AUTHENTICATOR DELETED SUCCESSFULLY"
