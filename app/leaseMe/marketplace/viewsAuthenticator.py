@@ -70,25 +70,38 @@ def login(request):
         return JsonResponse(d, status=400)
 
     if request.method == "POST":
-        if (isValidAuthenticator(request)):
-            user = (request.POST.get('user'))
-            user_num = int(user)
-            user = CustomUser.objects.filter(id=user_num)[0]
-            date_created = datetime.now()
-            key = '0!i@++*n5lxns$^f=zl5(48a(g^0f%b71mn%7^6w%06=kmlzs6'
-            authenticator = hmac.new(key = key.encode('utf-8'),msg = os.urandom(32),digestmod = 'sha256').hexdigest()
-            while (len(Authenticator.objects.filter(authenticator=authenticator)) != 0):
+        if(actualUser(request.POST.get('username'), request.POST.get('password'))):
+            if (isValidAuthenticator(request)):
+                user_num = int(CustomUser.objects.filter(username=username)[0].id)
+                user = CustomUser.objects.filter(id=user_num)[0]
+                date_created = datetime.now()
+                key = '0!i@++*n5lxns$^f=zl5(48a(g^0f%b71mn%7^6w%06=kmlzs6'
                 authenticator = hmac.new(key = key.encode('utf-8'),msg = os.urandom(32),digestmod = 'sha256').hexdigest()
-            newAuthenticator = Authenticator(user_id=user, date_created=date_created, authenticator=authenticator)
-            newAuthenticator.save()
-            d["id"] = newAuthenticator.id
-            d["status"] = "SUCCESS"
-            d["message"] = "Authenticator created successfully"
-            return JsonResponse(d)
+                while (len(Authenticator.objects.filter(authenticator=authenticator)) != 0):
+                    authenticator = hmac.new(key = key.encode('utf-8'),msg = os.urandom(32),digestmod = 'sha256').hexdigest()
+                newAuthenticator = Authenticator(user_id=user, date_created=date_created, authenticator=authenticator)
+                newAuthenticator.save()
+                d["id"] = newAuthenticator.id
+                d["status"] = "SUCCESS"
+                d["message"] = "Authenticator created successfully"
+                return JsonResponse(d)
+            else:
+                d["status"] = "FAILED"
+                d["message"] = "Either the fields are incorrect or that user authentication exists!"
+                return JsonResponse(d, status=400)
         else:
             d["status"] = "FAILED"
-            d["message"] = "Either the fields are incorrect or that user authentication exists!"
+            d["message"] = "Incorrect Username or Password"
             return JsonResponse(d, status=400)
+
+
+def actualUser(username, password):
+    if(len(CustomUser.objects.filter(username=username)) is 0):
+        return False
+    else:
+        return CustomUser.objects.filter(username=username)[0].password is password
+
+
 
 def logout(request, user):
     d = {}
