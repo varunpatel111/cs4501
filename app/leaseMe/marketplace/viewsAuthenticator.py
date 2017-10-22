@@ -109,7 +109,6 @@ def logout(request, user):
         return JsonResponse(d, status=400)
 
 # Authenticate
-
 def authenticate(request, user):
     if(len(Authenticator.objects.filter(user_id_id=user)) != 0):
         return True

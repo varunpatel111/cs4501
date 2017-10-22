@@ -15,6 +15,7 @@ from datetime import datetime
 import os
 import hmac
 from .forms import ListingForm
+from .forms import LoginForm
 from django.template.loader import render_to_string
 
 
@@ -147,4 +148,8 @@ def get_user(request, user):
 		return JsonResponse(d, status=400)
 
 def loginUser(request):
-	return JsonResponse(request.POST)
+	d = {}
+	form = LoginForm()
+	html = render_to_string('form.html', { 'form': form })
+	d["html"] = html
+	return JsonResponse(d)
