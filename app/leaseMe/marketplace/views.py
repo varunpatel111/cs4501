@@ -375,4 +375,8 @@ def new_listing_form(request):
 	return JsonResponse(d)
 
 def loginUser(request):
-	return JsonResponse(request.POST)
+	d = {}
+	form = LoginForm()
+	html = render_to_string('form.html', { 'form': form })
+	d["html"] = html
+	return JsonResponse(d)
