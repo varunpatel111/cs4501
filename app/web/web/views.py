@@ -66,3 +66,10 @@ def create_listing_form(request):
 		result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode("utf-8"))
 		content = result.read()
 		return HttpResponse(content)
+
+def login_form(request):
+	req = urllib.request.Request("http://exp-api:8000/api/loginForm/")
+	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+	resp = json.loads(resp_json)
+	return HttpResponse(resp["html"])
+

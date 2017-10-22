@@ -43,3 +43,10 @@ def createListing(request):
 	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode('utf-8'))
 	content = result.read()
 	return HttpResponse(content)
+
+def loginForm(request):
+	s = "http://models-api:8000/api/authenticate/login/"
+	req = urllib.request.Request(s)
+	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+	resp = json.loads(resp_json)
+	return JsonResponse(resp)
