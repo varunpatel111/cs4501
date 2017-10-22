@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^api/newListing/$', views.newListingForm),
     url(r'^api/createListing/', views.createListing),
     url(r'^api/loginForm/', views.loginForm),
+    url(r'^api/userLogin/', views.userLogin),
 ]

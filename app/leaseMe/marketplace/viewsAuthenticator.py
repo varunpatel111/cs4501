@@ -47,18 +47,22 @@ def all_authenticators(request):
             return JsonResponse(d, status=400)
 
 
-def isValidAuthenticator(request):
-    if (request.POST.get('user')):
-        user = (request.POST.get('user'))
-        user_num = int(user)
-        if (len(CustomUser.objects.filter(id=user_num)) == 0):
-            return False
-        if (authenticate(request, user_num)):
-            return False
-        else:
-            return True
+def isValidAuthenticator(request, userId):
+    user_num = userId
+    if (len(CustomUser.objects.filter(id=user_num)) == 0):
+        return False
+    if (authenticate(request, user_num)):
+        return False
+    else:
+        return True
+
+# Authenticate
+def authenticate(request, user):
+    if(len(Authenticator.objects.filter(user_id_id=user)) != 0):
+        return True
     else:
         return False
+
 
 # Create a new authenticator
 
@@ -69,9 +73,12 @@ def login(request):
         d["message"] = "This should be a POST request."
         return JsonResponse(d, status=400)
 
+
     if request.method == "POST":
-        if(actualUser(request.POST.get('username'), request.POST.get('password'))):
-            if (isValidAuthenticator(request)):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        if(actualUser(username, password)):
+            if (isValidAuthenticator(request, int(CustomUser.objects.filter(username=username)[0].id))):
                 user_num = int(CustomUser.objects.filter(username=username)[0].id)
                 user = CustomUser.objects.filter(id=user_num)[0]
                 date_created = datetime.now()
@@ -99,7 +106,7 @@ def actualUser(username, password):
     if(len(CustomUser.objects.filter(username=username)) is 0):
         return False
     else:
-        return CustomUser.objects.filter(username=username)[0].password is password
+        return CustomUser.objects.filter(username=username)[0].password == password
 
 
 
@@ -120,10 +127,3 @@ def logout(request, user):
         d["status"] = "FAILED"
         d["message"] = "This should be a DELETE request."
         return JsonResponse(d, status=400)
-
-# Authenticate
-def authenticate(request, user):
-    if(len(Authenticator.objects.filter(user_id_id=user)) != 0):
-        return True
-    else:
-        return False

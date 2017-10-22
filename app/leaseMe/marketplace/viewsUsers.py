@@ -148,8 +148,23 @@ def get_user(request, user):
 		return JsonResponse(d, status=400)
 
 def loginUser(request):
+	if (request.method == "GET"):
+		d = {}
+		form = LoginForm()
+		html = render_to_string('login.html', { 'form': form })
+		d["html"] = html
+		return JsonResponse(d)
+
+def login(request):
+	#this is arun/varun's function here
 	d = {}
-	form = LoginForm()
-	html = render_to_string('form.html', { 'form': form })
-	d["html"] = html
+	d["message"] = "hello world"
+	#return HttpResponse("hello")
 	return JsonResponse(d)
+	#d = {}
+	##username = request.POST.get("username")
+	#password = request.POST.get("password")
+	#d['username'] = username;
+	#d['password'] = password
+	#return JsonResponse(d)
+

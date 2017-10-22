@@ -50,3 +50,10 @@ def loginForm(request):
 	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 	resp = json.loads(resp_json)
 	return JsonResponse(resp)
+
+def userLogin(request):
+	url = "http://models-api:8000/api/authenticate/loginUser"
+	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode('utf-8'))
+	content = result.read()
+	return HttpResponse(content)
+
