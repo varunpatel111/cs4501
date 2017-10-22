@@ -95,11 +95,11 @@ def login(request):
             else:
                 d["status"] = "FAILED"
                 d["message"] = "Either the fields are incorrect or that user authentication exists!"
-                return JsonResponse(d, status=400)
+                return JsonResponse(d)
         else:
             d["status"] = "FAILED"
             d["message"] = "Incorrect Username or Password"
-            return JsonResponse(d, status=400)
+            return JsonResponse(d)
 
 
 def actualUser(username, password):

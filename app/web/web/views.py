@@ -78,6 +78,3 @@ def login_form(request):
 		result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode("utf-8"))
 		content = result.read()
 		return HttpResponse(content)
-
-
-
