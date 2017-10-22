@@ -1,7 +1,7 @@
 from django import forms
 
 from .models import Listing
-from .models import Listing
+from .models import User
 
 class ListingForm(forms.ModelForm):
 
@@ -13,4 +13,4 @@ class LoginForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password') 	
+        fields = ('username', 'password')
