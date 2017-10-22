@@ -10,6 +10,7 @@ import urllib
 import urllib.request
 import urllib.parse
 import math
+from urllib.request import urlopen
 
 def apiInfo(request):
 	return render(request, 'index.html')
@@ -62,7 +63,6 @@ def create_listing_form(request):
 		return HttpResponse(resp["html"])
 	else:
 		url = "http://exp-api:8000/api/createListing/"
-		data = urllib2.parse.urlencode(request.POST)
-		req = urllib.Request(url, data)
-		response = urllib.urlopen(req)
-		return JsonResponse(response)
+		result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode("utf-8"))
+		content = result.read()
+		return HttpResponse(content)

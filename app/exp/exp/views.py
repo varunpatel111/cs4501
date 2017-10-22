@@ -39,13 +39,7 @@ def newListingForm(request):
 	return JsonResponse(resp)
 
 def createListing(request):
-	#return HttpResponse("hell")
-	d = {}
-	d["message"] = "hello world"
-	return JsonResponse(d)
-
-
-
-	
-
-
+	url = "http://models-api:8000/api/listings/create/"
+	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode('utf-8'))
+	content = result.read()
+	return HttpResponse(content)
