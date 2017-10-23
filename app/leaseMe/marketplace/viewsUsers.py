@@ -168,8 +168,6 @@ def login(request):
 	#d['username'] = username;
 	#d['password'] = password
 	#return JsonResponse(d)
-<<<<<<< HEAD
-=======
 
 def new_user_form(request):
 	d = {}
@@ -177,5 +175,3 @@ def new_user_form(request):
 	html = render_to_string('new_user_form.html', { 'form': form })
 	d["html"] = html
 	return JsonResponse(d)
-
->>>>>>> 5ed1cdf799fdd62d117fa9874f1ebac0c832b9d1
