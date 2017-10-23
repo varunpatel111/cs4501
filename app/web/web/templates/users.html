@@ -1,24 +1,15 @@
 <!doctype html>
+{% extends "base.html" %}
 
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Alegreya" rel="stylesheet">
-
-  <meta charset="utf-8">
-
-  <title> Lease.me</title>
-  <center>
-    <div style="background-color: lightblue; position: relative; top: -20px;">
-      <br>
-      <h1 style="font-family: 'Lobster', cursive; font-size: 500%;"> Lease.me </h1>
-      <h2 style="font-family: 'Alegreya', serif;"> The only destination for all your UVa sub-leasing needs </h2>
-      <br><br>
-    </div>
-  </center>
+{% block header %}
+{% with logged_in as expectedVarName %}
+  {{block.super}}
+  {% endwith %}
+{% endblock header %}
 </head>
+{% block content %}
 
 <body style="background-color: #ffd289;"><center>
 <center>
@@ -30,3 +21,4 @@
   </form>
 </center>
 </body>
+ {% endblock %}

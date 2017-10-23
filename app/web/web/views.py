@@ -22,8 +22,9 @@ def homePage(request):
 	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 	resp = json.loads(resp_json)
 
+	logged_in = user_logged_in(request)
 	data = resp["data"]
-	return render(request, 'homepage.html', {'data': data})
+	return render(request, 'homepage.html', {'data': data, 'logged_in': logged_in})
 
 def get_listing(request, listing):
 	s = "http://exp-api:8000/api/listingPage/" + listing + "/"
@@ -43,7 +44,9 @@ def get_listing(request, listing):
 		all_data = {}
 		all_data['listing'] = l
 		all_data['user'] = u
-		return render(request, 'listing.html',  {'data': all_data})
+		logged_in = user_logged_in(request)
+
+		return render(request, 'listing.html',  {'data': all_data, 'logged_in' : logged_in})
 	else:
 		return render(request, 'Error.html')
 
@@ -53,7 +56,8 @@ def get_user(request, user):
 	resp = json.loads(resp_json)
 	if(resp["status"] == "SUCCESS"):
 		data = resp["data"]
-		return render(request, 'users.html', {'data': data})
+		logged_in = user_logged_in(request)
+		return render(request, 'users.html', {'data': data, 'logged_in' : logged_in})
 	else:
 		return render(request, 'Error.html')
 
