@@ -167,4 +167,3 @@ def login(request):
 	#d['username'] = username;
 	#d['password'] = password
 	#return JsonResponse(d)
-
