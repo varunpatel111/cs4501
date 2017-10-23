@@ -16,6 +16,7 @@ import os
 import hmac
 from .forms import ListingForm
 from .forms import LoginForm
+from .forms import UserForm
 from django.template.loader import render_to_string
 
 
@@ -167,4 +168,11 @@ def login(request):
 	#d['username'] = username;
 	#d['password'] = password
 	#return JsonResponse(d)
+
+def new_user_form(request):
+	d = {}
+	form = UserForm()
+	html = render_to_string('new_user_form.html', { 'form': form })
+	d["html"] = html
+	return JsonResponse(d)
 

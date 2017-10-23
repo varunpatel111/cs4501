@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^api/listings/(?P<listing>[0-9]+)/$', viewsListings.get_listing),
     url(r'^api/listings/create/$', viewsListings.listings_create),
     url(r'^api/listings/createForm/$', viewsListings.new_listing_form),
+    url(r'^api/users/createForm/$', viewsUsers.new_user_form),
     url(r'^api/login/$', viewsAuthenticator.login),
     url(r'^api/logout/$', viewsAuthenticator.logout),
     url(r'^api/authenticators/$', viewsAuthenticator.all_authenticators),
