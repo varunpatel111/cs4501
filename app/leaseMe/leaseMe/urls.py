@@ -43,6 +43,7 @@ urlpatterns = [
 
     # Forms
     url(r'^api/authenticate/login/$', viewsUsers.loginUser),
+    url(r'^api/authenticate/logout/$', viewsUsers.logoutUser),
     #url(r'^users/(?P<pk>[0-9]+)/', views.CustomUserDetail.as_view()),
     #url(r'^users', views.CustomUserList.as_view()),
     #url(r'^listings', views.ListingList.as_view()),

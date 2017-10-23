@@ -175,3 +175,6 @@ def new_user_form(request):
 	html = render_to_string('new_user_form.html', { 'form': form })
 	d["html"] = html
 	return JsonResponse(d)
+
+def logoutUser(request):
+	return HttpResponse("lope its working")

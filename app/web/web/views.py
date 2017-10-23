@@ -124,6 +124,13 @@ def login_form(request):
 			response.set_cookie("authenticator", authenticator)
 			return response
 
+def logout(request):
+	if user_logged_in(request):
+		response.delete_cookie('cookie_name1')
+		return HttpResponse("hello")
+	else:
+		return HttpResponse("no one is logged in right now")
+
 
 # def login(request):
 #     # If we received a GET request instead of a POST request
