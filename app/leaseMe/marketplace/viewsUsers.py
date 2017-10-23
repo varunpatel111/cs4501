@@ -177,4 +177,19 @@ def new_user_form(request):
 	return JsonResponse(d)
 
 def logoutUser(request):
-	return HttpResponse("lope its working")
+    d = {}
+    if request.method == "POST":
+        authenticator = request.POST.get('authenticator')
+        if (len(Authenticator.objects.filter(authenticator=authenticator)) == 0):
+            d["status"] = "FAILED"
+            d["message"] = "THAT AUTHENTICATOR DOESN'T EXIST"
+            return JsonResponse(d)
+        A = Authenticator.objects.filter(authenticator=authenticator)[0]
+        A.delete()
+        d["status"] = "SUCCESS"
+        d["message"] = "AUTHENTICATOR DELETED SUCCESSFULLY"
+        return JsonResponse(d)
+    else:
+        d["status"] = "FAILED"
+        d["message"] = "This should be a POST request."
+        return JsonResponse(d)

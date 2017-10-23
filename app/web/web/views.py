@@ -127,17 +127,21 @@ def login_form(request):
 def logout(request):
 	if user_logged_in(request):
 		response = HttpResponseRedirect("/")
-		response.delete_cookie('authenticator')
+		response.delete_cookie("authenticator")
 		url = "http://exp-api:8000/api/getUserId/"
 		result = urllib.request.urlopen(url, urllib.parse.urlencode({"authenticator" : request.COOKIES.get('authenticator')}).encode("utf-8"))
 		resp = result.read().decode('utf-8')
 		resp = json.loads(resp)
 		user = resp["user_id"]
 		d = request.POST.copy()
+		url = "http://exp-api:8000/api/logoutUser/"
+		result = urllib.request.urlopen(url, urllib.parse.urlencode({"authenticator" : request.COOKIES.get('authenticator')}).encode("utf-8"))
+		resp = result.read().decode('utf-8')
 		d["user"] = user
-		return HttpResponse("hello")
+		return response
 	else:
-		return HttpResponse("no one is logged in right now")
+		response = HttpResponseRedirect("/")
+		return response
 
 
 # def login(request):
