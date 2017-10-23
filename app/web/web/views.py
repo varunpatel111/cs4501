@@ -126,7 +126,15 @@ def login_form(request):
 
 def logout(request):
 	if user_logged_in(request):
-		response.delete_cookie('cookie_name1')
+		response = HttpResponseRedirect("/")
+		response.delete_cookie('authenticator')
+		url = "http://exp-api:8000/api/getUserId/"
+		result = urllib.request.urlopen(url, urllib.parse.urlencode({"authenticator" : request.COOKIES.get('authenticator')}).encode("utf-8"))
+		resp = result.read().decode('utf-8')
+		resp = json.loads(resp)
+		user = resp["user_id"]
+		d = request.POST.copy()
+		d["user"] = user
 		return HttpResponse("hello")
 	else:
 		return HttpResponse("no one is logged in right now")
