@@ -13,6 +13,7 @@ import math
 from urllib.request import urlopen
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 def apiInfo(request):
 	return render(request, 'index.html')
@@ -120,9 +121,11 @@ def login_form(request):
 			resp = result.read().decode('utf-8')
 			resp = json.loads(resp)
 			if(resp["status"] == "FAILED"):
+				messages.warning(request, 'Invalid login credentials')
 				return HttpResponseRedirect('/login/')
 			else:
 				authenticator = resp["authenticator"]
+				messages.warning(request, 'Logged in successfully!')
 				response = HttpResponseRedirect("/")
 				response.set_cookie("authenticator", authenticator)
 				return response
