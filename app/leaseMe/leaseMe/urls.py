@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from marketplace import views
+from marketplace import viewsListings
+from marketplace import viewsAuthenticator
+from marketplace import viewsUsers
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -24,17 +26,24 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #url(r'^', include(router.urls)),
     #url(r'^api/', include(ro, csrf_exempt(direct_to_template), uter.urls))
-    url(r'^api/users/$', views.all_users),
-    url(r'^api/users/(?P<user>[0-9]+)/$', views.get_user),
-    url(r'^api/users/create/$', views.users_create),
-    url(r'^api/listings/$', views.all_listings),
-    url(r'^api/listings/(?P<listing>[0-9]+)/$', views.get_listing),
-    url(r'^api/listings/create/$', views.listings_create),
-    url(r'^api/login/$', views.login),
-    url(r'^api/logout/(?P<user>[0-9]+)/$', views.logout),
-    url(r'^api/authenticators/$', views.all_authenticators),
-    url(r'^api/authenticate/(?P<user>[0-9]+)/$', views.authenticate),
+    url(r'^api/users/$', viewsUsers.all_users),
+    url(r'^api/users/(?P<user>[0-9]+)/$', viewsUsers.get_user),
+    url(r'^api/users/create/$', viewsUsers.users_create),
+    url(r'^api/listings/$', viewsListings.all_listings),
+    url(r'^api/listings/(?P<listing>[0-9]+)/$', viewsListings.get_listing),
+    url(r'^api/listings/create/$', viewsListings.listings_create),
+    url(r'^api/listings/createForm/$', viewsListings.new_listing_form),
+    url(r'^api/users/createForm/$', viewsUsers.new_user_form),
+    url(r'^api/login/$', viewsAuthenticator.login),
+    url(r'^api/logout/$', viewsAuthenticator.logout),
+    url(r'^api/authenticators/$', viewsAuthenticator.all_authenticators),
+    url(r'^api/authenticate/(?P<user>[0-9]+)/$', viewsAuthenticator.authenticate),
+    url(r'^api/getUserId/$', viewsAuthenticator.getUserId),
     #url(r'^api/validateUser/$', views.validateUser),
+
+    # Forms
+    url(r'^api/authenticate/login/$', viewsUsers.loginUser),
+    url(r'^api/authenticate/logout/$', viewsUsers.logoutUser),
     #url(r'^users/(?P<pk>[0-9]+)/', views.CustomUserDetail.as_view()),
     #url(r'^users', views.CustomUserList.as_view()),
     #url(r'^listings', views.ListingList.as_view()),

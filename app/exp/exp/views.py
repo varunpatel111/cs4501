@@ -31,3 +31,59 @@ def get_user(request, user):
 	resp = json.loads(resp_json)
 	return JsonResponse(resp)
 
+def newListingForm(request):
+	s = "http://models-api:8000/api/listings/createForm/"
+	req = urllib.request.Request(s)
+	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+	resp = json.loads(resp_json)
+	return JsonResponse(resp)
+
+def createListing(request):
+	url = "http://models-api:8000/api/listings/create/"
+	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode('utf-8'))
+	content = result.read()
+	return HttpResponse(content)
+
+def createUser(request):
+	url = "http://models-api:8000/api/users/create/"
+	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode('utf-8'))
+	content = result.read()
+	return HttpResponse(content)
+
+def newUserForm(request):
+	s = "http://models-api:8000/api/users/createForm/"
+	req = urllib.request.Request(s)
+	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+	resp = json.loads(resp_json)
+	#d = {}
+	#d["message"] = "hello world"
+	return JsonResponse(resp)
+
+def loginForm(request):
+	s = "http://models-api:8000/api/authenticate/login/"
+	req = urllib.request.Request(s)
+	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+	resp = json.loads(resp_json)
+	return JsonResponse(resp)
+
+def userLogin(request):
+	url = "http://models-api:8000/api/login/"
+	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode('utf-8'))
+	content = result.read()
+	return HttpResponse(content)
+
+def getUserId(request):
+	url = "http://models-api:8000/api/getUserId/"
+	authenticator = request.POST.get('authenticator')
+	result = urllib.request.urlopen(url, urllib.parse.urlencode({"authenticator" : authenticator}).encode("utf-8"))
+	resp = result.read().decode('utf-8')
+	resp = json.loads(resp)
+	return JsonResponse(resp)
+
+def logoutUser(request):
+	s = "http://models-api:8000/api/authenticate/logout/"
+	req = urllib.request.Request(s)
+	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+	resp = json.loads(resp_json)
+	return JsonResponse(resp)
+

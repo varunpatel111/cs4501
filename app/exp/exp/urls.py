@@ -21,4 +21,12 @@ urlpatterns = [
 	url(r'^api/homePage', views.homePage),
 	url(r'^api/listingPage/(?P<listing>[0-9]+)/$', views.get_listing),
 	url(r'^api/userPage/(?P<user>[0-9]+)/$', views.get_user),
+    url(r'^api/newListing/$', views.newListingForm),
+    url(r'^api/createListing/', views.createListing),
+    url(r'^api/createUser/', views.createUser),
+    url(r'^api/newUser/', views.newUserForm),
+    url(r'^api/loginForm/', views.loginForm),
+    url(r'^api/userLogin/', views.userLogin),
+    url(r'^api/getUserId/', views.getUserId),
+    url(r'^api/logoutUser/', views.logoutUser),
 ]

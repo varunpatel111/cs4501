@@ -9,11 +9,12 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 import datetime
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from datetime import datetime
 import os
 import hmac
-
-
+from .forms import ListingForm
+from .forms import LoginForm
 
 def json_default(value):
     if isinstance(value, datetime.date):
@@ -363,3 +364,27 @@ def listings_create(request):
 			d["status"] = "FAILURE"
 			d["message"] = "LISTING SENT IS INVALID"
 			return JsonResponse(d)
+
+def new_listing_form(request):
+	d = {}
+	form = ListingForm()
+	html = render_to_string('form.html', { 'form': form })
+	d["html"] = html
+	return JsonResponse(d)
+
+def new_listing_form(request):
+	d = {}
+	form = ListingForm()
+	html = render_to_string('form.html', { 'form': form })
+	d["html"] = html
+	return JsonResponse(d)
+
+def loginUser(request):
+	d = {}
+	form = LoginForm()
+	html = render_to_string('login.html', { 'form': form })
+	d["html"] = html
+	return JsonResponse(d)
+
+def logoutUser(request):
+
