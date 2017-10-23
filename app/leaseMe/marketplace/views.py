@@ -375,6 +375,14 @@ def new_listing_form(request):
 	d["html"] = html
 	return JsonResponse(d)
 
+def new_listing_form(request):
+	d = {}
+	form = ListingForm()
+	#html = render(request, 'form.html', {'form': form})
+	html = render_to_string('form.html', { 'form': form })
+	d["html"] = html
+	return JsonResponse(d)
+
 def loginUser(request):
 	d = {}
 	form = LoginForm()

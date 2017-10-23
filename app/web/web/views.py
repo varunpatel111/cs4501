@@ -69,6 +69,18 @@ def create_listing_form(request):
 		content = result.read()
 		return HttpResponse(content)
 
+def create_user_form(request):
+	if request.method == "GET":
+		req = urllib.request.Request("http://exp-api:8000/api/newUser/")
+		resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+		resp = json.loads(resp_json)
+		return HttpResponse(resp["html"])
+	else:
+		url = "http://exp-api:8000/api/createUser/"
+		result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode("utf-8"))
+		content = result.read()
+		return HttpResponse(content)
+
 def login_form(request):
 	if request.method == "GET":
 		req = urllib.request.Request("http://exp-api:8000/api/loginForm/")

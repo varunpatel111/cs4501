@@ -23,6 +23,8 @@ urlpatterns = [
 	url(r'^api/userPage/(?P<user>[0-9]+)/$', views.get_user),
     url(r'^api/newListing/$', views.newListingForm),
     url(r'^api/createListing/', views.createListing),
+    url(r'^api/createUser/', views.createUser),
+    url(r'^api/newUser/', views.newUserForm),
     url(r'^api/loginForm/', views.loginForm),
     url(r'^api/userLogin/', views.userLogin),
 ]
