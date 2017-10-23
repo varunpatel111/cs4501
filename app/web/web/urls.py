@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^listings/new/$', views.create_listing_form),
     url(r'^users/new/$', views.create_user_form),
     url(r'^login/$', views.login_form),
+    url(r'^logout/$', views.logout),
 ]
