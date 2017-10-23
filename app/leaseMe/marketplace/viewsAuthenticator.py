@@ -126,7 +126,7 @@ def logout(request):
         return JsonResponse(d)
     else:
         d["status"] = "FAILED"
-        d["message"] = "This should be a DELETE request."
+        d["message"] = "This should be a POST request."
         return JsonResponse(d)
 
 def getUserId(request):
