@@ -118,7 +118,7 @@ def logout(request):
         if (len(Authenticator.objects.filter(authenticator=authenticator)) == 0):
             d["status"] = "FAILED"
             d["message"] = "THAT AUTHENTICATOR DOESN'T EXIST"
-            return JsonResponse(d,  status=404)
+            return JsonResponse(d)
         A = Authenticator.objects.filter(authenticator=authenticator)[0]
         A.delete()
         d["status"] = "SUCCESS"
@@ -127,4 +127,17 @@ def logout(request):
     else:
         d["status"] = "FAILED"
         d["message"] = "This should be a DELETE request."
-        return JsonResponse(d, status=400)
+        return JsonResponse(d)
+
+def getUserId(request):
+    d = {}
+    if request.method == "POST":
+        authenticator = request.POST.get('authenticator')
+        if (len(Authenticator.objects.filter(authenticator=authenticator)) == 0):
+            d["status"] = "FAILED"
+            d["message"] = "THAT AUTHENTICATOR DOESN'T EXIST"
+        else:
+            A = Authenticator.objects.filter(authenticator=authenticator)[0]
+            user_Id = A.user_id_id
+            d["user_id"] = user_Id
+            return JsonResponse(d)

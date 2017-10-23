@@ -71,3 +71,11 @@ def userLogin(request):
 	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode('utf-8'))
 	content = result.read()
 	return HttpResponse(content)
+
+def getUserId(request):
+	url = "http://models-api:8000/api/getUserId/"
+	authenticator = request.POST.get('authenticator')
+	result = urllib.request.urlopen(url, urllib.parse.urlencode({"authenticator" : authenticator}).encode("utf-8"))
+	resp = result.read().decode('utf-8')
+	resp = json.loads(resp)
+	return JsonResponse(resp)

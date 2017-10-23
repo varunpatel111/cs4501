@@ -7,7 +7,7 @@ class ListingForm(forms.ModelForm):
 
     class Meta:
         model = Listing
-        fields = ('address', 'num_bedrooms', 'num_bathrooms', 'price', 'start_date', 'end_date', 'description', 'sold', 'user')
+        fields = ('address', 'num_bedrooms', 'num_bathrooms', 'price', 'start_date', 'end_date', 'description', 'sold')
 
 class UserForm(forms.ModelForm):
 

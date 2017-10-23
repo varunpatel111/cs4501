@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^api/newUser/', views.newUserForm),
     url(r'^api/loginForm/', views.loginForm),
     url(r'^api/userLogin/', views.userLogin),
+    url(r'^api/getUserId/', views.getUserId),
 ]

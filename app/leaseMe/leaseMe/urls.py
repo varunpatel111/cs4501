@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^api/logout/$', viewsAuthenticator.logout),
     url(r'^api/authenticators/$', viewsAuthenticator.all_authenticators),
     url(r'^api/authenticate/(?P<user>[0-9]+)/$', viewsAuthenticator.authenticate),
+    url(r'^api/getUserId/$', viewsAuthenticator.getUserId),
     #url(r'^api/validateUser/$', views.validateUser),
 
     # Forms

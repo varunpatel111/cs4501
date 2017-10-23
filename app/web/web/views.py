@@ -59,15 +59,34 @@ def get_user(request, user):
 
 def create_listing_form(request):
 	if request.method == "GET":
-		req = urllib.request.Request("http://exp-api:8000/api/newListing/")
-		resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-		resp = json.loads(resp_json)
-		return HttpResponse(resp["html"])
+		if user_logged_in(request):
+			req = urllib.request.Request("http://exp-api:8000/api/newListing/")
+			resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+			resp = json.loads(resp_json)
+			return HttpResponse(resp["html"])
+		else:
+			return HttpResponseRedirect('/login/')
 	else:
+		url = "http://exp-api:8000/api/getUserId/"
+		result = urllib.request.urlopen(url, urllib.parse.urlencode({"authenticator" : request.COOKIES.get('authenticator')}).encode("utf-8"))
+		resp = result.read().decode('utf-8')
+		resp = json.loads(resp)
+		user = resp["user_id"]
+		d = request.POST.copy()
+		d["user"] = user
 		url = "http://exp-api:8000/api/createListing/"
-		result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode("utf-8"))
+		result = urllib.request.urlopen(url, urllib.parse.urlencode(d).encode("utf-8"))
 		content = result.read()
-		return HttpResponse(content)
+		response = HttpResponseRedirect("/")
+		return response
+
+def user_logged_in(request):
+	authenticator = request.COOKIES.get('authenticator')
+	if not authenticator:
+		return False
+	else:
+		return True
+
 
 def create_user_form(request):
 	if request.method == "GET":
@@ -104,7 +123,8 @@ def login_form(request):
 			response = HttpResponseRedirect("/")
 			response.set_cookie("authenticator", authenticator)
 			return response
-#
+
+
 # def login(request):
 #     # If we received a GET request instead of a POST request
 #     if request.method == 'GET':
