@@ -1,0 +1,43 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  {% block header %}
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Alegreya" rel="stylesheet">
+
+  <title> Lease.me</title>
+
+  <center>
+    <div style="background-color: lightblue; position: relative; top: -20px;">
+      <br>
+      <h1 style="font-family: 'Lobster', cursive; font-size: 500%;"> Lease.me </h1>
+      <h2 style="font-family: 'Alegreya', serif;"> The only destination for all your UVa sub-leasing needs </h2>
+      {% if not expectedVarName %}
+      <div style="float: right; padding: 0px; position: relative; top: -140px">
+      <form action="http://localhost:8000/login/">
+          <input type="submit" value="Login"/>
+        </form>
+        <br>
+        <form action="http://localhost:8000/users/new/">
+            <input type="submit" value="Create Account"/>
+          </form>
+        </div>
+      {% endif %}
+      {% if expectedVarName %}
+      <div style="float: right; padding: 10px; position: relative; top: -140px">
+      <form action="http://localhost:8000/logout/">
+          <input type="submit" value="Logout"/>
+        </form>
+        </div>
+      {% endif %}
+      <br><br>
+    </div>
+
+  </center>
+  {% endblock %}
+{% block content %}{% endblock %}
+</head>
