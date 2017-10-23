@@ -101,28 +101,31 @@ def create_user_form(request):
 		return HttpResponse(content)
 
 def login_form(request):
-	if request.method == "GET":
-		req = urllib.request.Request("http://exp-api:8000/api/loginForm/")
-		resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-		resp = json.loads(resp_json)
-		return HttpResponse(resp["html"])
+	if user_logged_in(request):
+		return HttpResponseRedirect('/')
 	else:
-		f = request.POST
-		username = f['username']
-		password = f['password']
-
-		url = "http://exp-api:8000/api/userLogin/"
-
-		result = urllib.request.urlopen(url, urllib.parse.urlencode({"username" : username, "password" : password}).encode("utf-8"))
-		resp = result.read().decode('utf-8')
-		resp = json.loads(resp)
-		if(resp["status"] == "FAILED"):
-			return HttpResponseRedirect('/login/')
+		if request.method == "GET":
+			req = urllib.request.Request("http://exp-api:8000/api/loginForm/")
+			resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+			resp = json.loads(resp_json)
+			return HttpResponse(resp["html"])
 		else:
-			authenticator = resp["authenticator"]
-			response = HttpResponseRedirect("/")
-			response.set_cookie("authenticator", authenticator)
-			return response
+			f = request.POST
+			username = f['username']
+			password = f['password']
+
+			url = "http://exp-api:8000/api/userLogin/"
+
+			result = urllib.request.urlopen(url, urllib.parse.urlencode({"username" : username, "password" : password}).encode("utf-8"))
+			resp = result.read().decode('utf-8')
+			resp = json.loads(resp)
+			if(resp["status"] == "FAILED"):
+				return HttpResponseRedirect('/login/')
+			else:
+				authenticator = resp["authenticator"]
+				response = HttpResponseRedirect("/")
+				response.set_cookie("authenticator", authenticator)
+				return response
 
 def logout(request):
 	if user_logged_in(request):
