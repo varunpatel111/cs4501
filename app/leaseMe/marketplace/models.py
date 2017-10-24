@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 
 
 class CustomUser(models.Model):
-	email = models.CharField(max_length=50)
-	username = models.CharField(max_length=50, default="")
-	password = models.CharField(max_length=512)
+	email = models.CharField(max_length=50, unique=True)
+	username = models.CharField(max_length=50, default="", unique=True)
+	password = models.CharField(max_length=256)
 	first_name = models.CharField(max_length=30)
 	last_name = models.CharField(max_length=30)
 
