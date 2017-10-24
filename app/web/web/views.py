@@ -14,6 +14,7 @@ from urllib.request import urlopen
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 
 def apiInfo(request):
 	return render(request, 'index.html')
@@ -71,7 +72,9 @@ def create_listing_form(request):
 			html = resp["html"]
 			return render(request, 'listing_form.html', {'html': html})
 		else:
-			return HttpResponseRedirect('/login/')
+			response = HttpResponseRedirect("/login")
+			response.set_cookie("next", "/listings/new/")
+			return response
 	else:
 		url = "http://exp-api:8000/api/getUserId/"
 		result = urllib.request.urlopen(url, urllib.parse.urlencode({"authenticator" : request.COOKIES.get('authenticator')}).encode("utf-8"))
@@ -89,7 +92,7 @@ def create_listing_form(request):
 			return HttpResponseRedirect("/")
 		else:
 			messages.warning(request, 'Listing sent was invalid.')
-			return HttpResponseRedirect("/")
+			return HttpResponseRedirect("/listings/new/")
 
 def user_logged_in(request):
 	authenticator = request.COOKIES.get('authenticator')
@@ -139,7 +142,11 @@ def login_form(request):
 			else:
 				authenticator = resp["authenticator"]
 				messages.success(request, 'Logged in successfully!')
-				response = HttpResponseRedirect("/")
+				if request.COOKIES.get('next') != None:
+					response = HttpResponseRedirect(request.COOKIES.get('next'))
+					response.delete_cookie("next")
+				else:
+					response = HttpResponseRedirect('/')
 				response.set_cookie("authenticator", authenticator)
 				return response
 
