@@ -69,7 +69,7 @@ def create_listing_form(request):
 			resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 			resp = json.loads(resp_json)
 			html = resp["html"]
-			return HttpResponse(resp["html"])
+			return render(request, 'listing_form.html', {'html': html})
 		else:
 			return HttpResponseRedirect('/login/')
 	else:
