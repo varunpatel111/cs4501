@@ -91,6 +91,10 @@ def users_create(request):
 				d["status"] = "SUCCESS"
 				d["message"] = "User created succesfully."
 				return JsonResponse(d)
+		else:
+			d["status"] = "FAILED"
+			d["message"] = "Fields are incorrect"
+			return JsonResponse(d)
 	else:
 		d["status"] = "FAILED"
 		d["message"] = "This should be a POST request."
