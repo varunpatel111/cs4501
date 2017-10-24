@@ -1,11 +1,17 @@
+<body>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 {% block content %}
     <h1>Login</h1>
     <form method="POST" class="post-form">
         {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Save</button>
+        <button type="submit" class="save btn btn-default">Login</button>
     </form>
 {% endblock %}
-
-{% if form.errors %}
-    <p1> there is a mistake </p1>
-{% endif %}
+</body>
