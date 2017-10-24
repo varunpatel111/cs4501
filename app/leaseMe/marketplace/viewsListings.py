@@ -29,7 +29,7 @@ def all_listings(request):
 	if request.method != "GET":
 		d["status"] = "FAILED"
 		d["message"] = "MUST BE A GET REQUEST"
-		return JsonResponse(d, status=404)
+		return JsonResponse(d)
 
 	queryset = Listing.objects.all().values().order_by('start_date')
 
@@ -43,7 +43,7 @@ def all_listings(request):
 	else:
 		d["status"] = "FAILED"
 		d["message"] = "NO LISTINGS AVAILABLE"
-		return JsonResponse(d, status=404)
+		return JsonResponse(d)
 
 
 #Get a single Listing (0, 1, 2...)

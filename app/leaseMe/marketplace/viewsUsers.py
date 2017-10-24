@@ -24,10 +24,10 @@ from django import db
 
 
 def json_default(value):
-    if isinstance(value, datetime.date):
-        return dict(year=value.year, month=value.month, day=value.day)
-    else:
-        return value.__dict__
+	if isinstance(value, datetime.date):
+		return dict(year=value.year, month=value.month, day=value.day)
+	else:
+		return value.__dict__
 
 
 
@@ -37,7 +37,7 @@ def all_users(request):
 		d = dict()
 		d["status"] = "FAILED"
 		d["message"] = "Request should be a GET request."
-		return JsonResponse(d, status=400)
+		return JsonResponse(d)
 
 	queryset = CustomUser.objects.all().values()
 	arr = []
@@ -52,7 +52,7 @@ def all_users(request):
 	else:
 		d["status"] = "FAILED"
 		d["message"] = "No users currently."
-		return JsonResponse(d, status=400)
+		return JsonResponse(d)
 
 #Check if object is a valid CustomUser
 def isValidUser(request):
@@ -64,33 +64,37 @@ def isValidUser(request):
 
 #Create a new CustomUser
 def users_create(request):
-    d = dict()
-    if request.method != "POST":
-        d["status"] = "FAILED"
-        d["message"] = "This should be a POST request."
-        return JsonResponse(d, status=400)
-    if request.method == "POST":
-        if (isValidUser(request)):
-            if (len(CustomUser.objects.filter(username=request.POST.get('username'))) == 0):
-                email = request.POST.get('email')
-                username = request.POST.get('username')
-                first_name = request.POST.get('first_name')
-                last_name = request.POST.get('last_name')
-                password = hashers.make_password(str(request.POST.get('password')))
-                newUser = CustomUser(username=username, email=email, first_name=first_name, password=password, last_name=last_name)
-                newUser.save()
-                d["id"] = newUser.id
-                d["status"] = "SUCCESS"
-                d["message"] = "User created succesfully."
-                return JsonResponse(d)
-            else:
-                d["status"] = "FAILED"
-                d["message"] = "This username already exists"
-                return JsonResponse(d, status=400)
-        else:
-            d["status"] = "FAILED"
-            d["message"] = "This should be a POST request."
-            return JsonResponse(d, status=400)
+	d = dict()
+	if request.method != "POST":
+		d["status"] = "FAILED"
+		d["message"] = "This should be a POST request."
+		return JsonResponse(d)
+	if request.method == "POST":
+		if (isValidUser(request)):
+			if (len(CustomUser.objects.filter(username=request.POST.get('username'))) > 0):
+				d["status"] = "FAILED"
+				d["message"] = "This username already exists"
+				return JsonResponse(d)
+			elif (len(CustomUser.objects.filter(email=request.POST.get('email'))) > 0):
+				d["status"] = "FAILED"
+				d["message"] = "An account with this email already exists"
+				return JsonResponse(d)
+			else:
+				email = request.POST.get('email')
+				username = request.POST.get('username')
+				first_name = request.POST.get('first_name')
+				last_name = request.POST.get('last_name')
+				password = hashers.make_password(str(request.POST.get('password')))
+				newUser = CustomUser(username=username, email=email, first_name=first_name, password=password, last_name=last_name)
+				newUser.save()
+				d["id"] = newUser.id
+				d["status"] = "SUCCESS"
+				d["message"] = "User created succesfully."
+				return JsonResponse(d)
+	else:
+		d["status"] = "FAILED"
+		d["message"] = "This should be a POST request."
+		return JsonResponse(d)
 
 
 def get_user(request, user):
@@ -127,29 +131,29 @@ def get_user(request, user):
 			else:
 				d["status"] = "FAILED"
 				d["message"] = "Sorry, that user does not exist."
-				return JsonResponse(d, status=400)
+				return JsonResponse(d)
 		else:
 			d["status"] = "FAILED"
 			d["message"] = "Sorry, that user is not valid."
-			return JsonResponse(d, status=400)
+			return JsonResponse(d)
 
 	elif request.method == "DELETE":
 		user_num = int(user)
 		if (len(CustomUser.objects.filter(id=user_num)) == 0):
 			d["status"] = "FAILED"
 			d["message"] = "Sorry, that user does not exist."
-			return JsonResponse(d, status=400)
+			return JsonResponse(d)
 
 		u = CustomUser.objects.filter(id=user_num)[0]
 		u.delete()
 		d["status"] = "SUCCESS"
 		d["message"] = "User deleted successfully."
-		return JsonResponse(d, status=400)
+		return JsonResponse(d)
 
 	else:
 		d["status"] = "SUCCESS"
 		d["message"] = "Request must be a GET/POST/DELETE request."
-		return JsonResponse(d, status=400)
+		return JsonResponse(d)
 
 def loginUser(request):
 	if (request.method == "GET"):
@@ -180,19 +184,19 @@ def new_user_form(request):
 	return JsonResponse(d)
 
 def logoutUser(request):
-    d = {}
-    if request.method == "POST":
-        authenticator = request.POST.get('authenticator')
-        if (len(Authenticator.objects.filter(authenticator=authenticator)) == 0):
-            d["status"] = "FAILED"
-            d["message"] = "THAT AUTHENTICATOR DOESN'T EXIST"
-            return JsonResponse(d)
-        A = Authenticator.objects.filter(authenticator=authenticator)[0]
-        A.delete()
-        d["status"] = "SUCCESS"
-        d["message"] = "AUTHENTICATOR DELETED SUCCESSFULLY"
-        return JsonResponse(d)
-    else:
-        d["status"] = "FAILED"
-        d["message"] = "This should be a POST request."
-        return JsonResponse(d)
+	d = {}
+	if request.method == "POST":
+		authenticator = request.POST.get('authenticator')
+		if (len(Authenticator.objects.filter(authenticator=authenticator)) == 0):
+			d["status"] = "FAILED"
+			d["message"] = "THAT AUTHENTICATOR DOESN'T EXIST"
+			return JsonResponse(d)
+		A = Authenticator.objects.filter(authenticator=authenticator)[0]
+		A.delete()
+		d["status"] = "SUCCESS"
+		d["message"] = "AUTHENTICATOR DELETED SUCCESSFULLY"
+		return JsonResponse(d)
+	else:
+		d["status"] = "FAILED"
+		d["message"] = "This should be a POST request."
+		return JsonResponse(d)
