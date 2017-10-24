@@ -21,10 +21,19 @@
 </head>
 <body style="background-color: #ffd289;">
 
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
   <br>
 <center><h3 style="font-family: 'Alegreya', serif; font-size: 250%;"> Here's some upcoming listings... </h3></center>
 <br><br>
 <center>
+
 <table style="width: 85%">
 <tr>
 {% for listing in data %}
