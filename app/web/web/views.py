@@ -103,16 +103,35 @@ def user_logged_in(request):
 
 
 def create_user_form(request):
-	if request.method == "GET":
-		req = urllib.request.Request("http://exp-api:8000/api/newUser/")
-		resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-		resp = json.loads(resp_json)
-		return HttpResponse(resp["html"])
+	if user_logged_in(request):
+		messages.warning(request, 'You are logged into an account.')
+		return HttpResponseRedirect("/")
 	else:
-		url = "http://exp-api:8000/api/createUser/"
-		result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode("utf-8"))
-		content = result.read()
-		return HttpResponse(content)
+		if request.method == "GET":
+			req = urllib.request.Request("http://exp-api:8000/api/newUser/")
+			resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+			resp = json.loads(resp_json)
+			html = resp["html"]
+			return render(request, 'user_form.html', {'html': html})
+		else:
+			url = "http://exp-api:8000/api/createUser/"
+			result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode("utf-8"))
+			resp = result.read().decode('utf-8')
+			resp = json.loads(resp)
+			if resp["status"] == "FAILED":
+				if resp["message"] == "This username already exists":
+					messages.warning(request, 'An account with this username already exists.')
+					return HttpResponseRedirect("/users/new")
+				elif resp["message"] == "An account with this email already exists":
+					messages.warning(request, 'An account with this email already exists.')
+					return HttpResponseRedirect("/users/new")
+				else:
+					messages.warning(request, 'User sent is invalid')
+					return HttpResponseRedirect("/users/new")
+			else:
+				messages.success(request, 'User created successfully')
+				return HttpResponseRedirect('/login')
+			
 
 def login_form(request):
 	if user_logged_in(request):

@@ -32,7 +32,7 @@ def all_authenticators(request):
         d = dict()
         d["status"] = "FAILED"
         d["message"] = "Request should be a GET request."
-        return JsonResponse(d, status=400)
+        return JsonResponse(d)
 
     else:
         queryset = Authenticator.objects.all().values()
@@ -47,7 +47,7 @@ def all_authenticators(request):
         else:
             d["status"] = "FAILED"
             d["message"] = "No authenticators currently."
-            return JsonResponse(d, status=400)
+            return JsonResponse(d)
 
 
 def isValidAuthenticator(request, userId):
@@ -74,7 +74,7 @@ def login(request):
     if request.method != "POST":
         d["status"] = "FAILED"
         d["message"] = "This should be a POST request."
-        return JsonResponse(d, status=400)
+        return JsonResponse(d)
 
 
     if request.method == "POST":
