@@ -13,6 +13,7 @@ import math
 from urllib.request import urlopen
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 def apiInfo(request):
 	return render(request, 'index.html')
@@ -67,6 +68,7 @@ def create_listing_form(request):
 			req = urllib.request.Request("http://exp-api:8000/api/newListing/")
 			resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 			resp = json.loads(resp_json)
+			html = resp["html"]
 			return HttpResponse(resp["html"])
 		else:
 			return HttpResponseRedirect('/login/')
@@ -80,9 +82,14 @@ def create_listing_form(request):
 		d["user"] = user
 		url = "http://exp-api:8000/api/createListing/"
 		result = urllib.request.urlopen(url, urllib.parse.urlencode(d).encode("utf-8"))
-		content = result.read()
-		response = HttpResponseRedirect("/")
-		return response
+		resp = result.read().decode('utf-8')
+		resp = json.loads(resp)
+		if resp["status"] == "SUCCESS":
+			messages.success(request, 'Listing created succesfully.')
+			return HttpResponseRedirect("/")
+		else:
+			messages.warning(request, 'Listing sent was invalid.')
+			return HttpResponseRedirect("/")
 
 def user_logged_in(request):
 	authenticator = request.COOKIES.get('authenticator')
@@ -106,13 +113,16 @@ def create_user_form(request):
 
 def login_form(request):
 	if user_logged_in(request):
+		messages.warning(request, 'You are already logged in')
 		return HttpResponseRedirect('/')
 	else:
 		if request.method == "GET":
 			req = urllib.request.Request("http://exp-api:8000/api/loginForm/")
 			resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 			resp = json.loads(resp_json)
-			return HttpResponse(resp["html"])
+			html = resp["html"]
+			#return HttpResponse(resp["html"])
+			return render(request, 'login.html', {'html': html})
 		else:
 			f = request.POST
 			username = f['username']
@@ -124,9 +134,11 @@ def login_form(request):
 			resp = result.read().decode('utf-8')
 			resp = json.loads(resp)
 			if(resp["status"] == "FAILED"):
+				messages.warning(request, 'Invalid login credentials')
 				return HttpResponseRedirect('/login/')
 			else:
 				authenticator = resp["authenticator"]
+				messages.success(request, 'Logged in successfully!')
 				response = HttpResponseRedirect("/")
 				response.set_cookie("authenticator", authenticator)
 				return response
@@ -145,6 +157,7 @@ def logout(request):
 		result = urllib.request.urlopen(url, urllib.parse.urlencode({"authenticator" : request.COOKIES.get('authenticator')}).encode("utf-8"))
 		resp = result.read().decode('utf-8')
 		d["user"] = user
+		messages.success(request, 'Logged out successfully!')
 		return response
 	else:
 		response = HttpResponseRedirect("/")
