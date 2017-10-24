@@ -5,3 +5,7 @@
         <button type="submit" class="save btn btn-default">Save</button>
     </form>
 {% endblock %}
+
+{% if form.errors %}
+    <p1> there is a mistake </p1>
+{% endif %}

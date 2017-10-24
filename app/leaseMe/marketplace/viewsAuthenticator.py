@@ -16,6 +16,9 @@ import os
 import hmac
 from .forms import ListingForm
 from django.template.loader import render_to_string
+from django.contrib.auth import hashers
+from django.forms.models import model_to_dict
+from django import db
 
 def json_default(value):
     if isinstance(value, datetime.date):
@@ -76,7 +79,7 @@ def login(request):
 
     if request.method == "POST":
         username = request.POST.get('username')
-        password = request.POST.get('password')
+        password = (request.POST.get('password'))
         if(actualUser(username, password)):
             if (isValidAuthenticator(request, int(CustomUser.objects.filter(username=username)[0].id))):
                 user_num = int(CustomUser.objects.filter(username=username)[0].id)
@@ -107,7 +110,7 @@ def actualUser(username, password):
     if(len(CustomUser.objects.filter(username=username)) == 0):
         return False
     else:
-        return CustomUser.objects.filter(username=username)[0].password == password
+        return hashers.check_password(password, CustomUser.objects.filter(username=username)[0].password)
 
 
 

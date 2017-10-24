@@ -28,10 +28,14 @@
         </div>
       {% endif %}
       {% if expectedVarName %}
-      <div style="float: right; padding: 10px; position: relative; top: -140px">
+      <div style="float: right; padding: 0px; position: relative; top: -140px">
       <form action="http://localhost:8000/logout/">
           <input type="submit" value="Logout"/>
         </form>
+<br>
+        <form action="http://localhost:8000/listings/new/">
+            <input type="submit" value="Create Listing"/>
+          </form>
         </div>
       {% endif %}
       <br><br>

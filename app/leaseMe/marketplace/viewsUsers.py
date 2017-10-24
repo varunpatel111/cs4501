@@ -18,6 +18,9 @@ from .forms import ListingForm
 from .forms import LoginForm
 from .forms import UserForm
 from django.template.loader import render_to_string
+from django.contrib.auth import hashers
+from django.forms.models import model_to_dict
+from django import db
 
 
 def json_default(value):
@@ -73,7 +76,7 @@ def users_create(request):
                 username = request.POST.get('username')
                 first_name = request.POST.get('first_name')
                 last_name = request.POST.get('last_name')
-                password = request.POST.get('password')
+                password = hashers.make_password(str(request.POST.get('password')))
                 newUser = CustomUser(username=username, email=email, first_name=first_name, password=password, last_name=last_name)
                 newUser.save()
                 d["id"] = newUser.id
@@ -115,7 +118,7 @@ def get_user(request, user):
 				user = CustomUser.objects.filter(id=user_num)[0]
 				user.first_name = request.POST.get('first_name')
 				user.last_name = request.POST.get('last_name')
-				user.password = request.POST.get('password')
+				user.password = hashers.make_password(request.POST.get('password'))
 				user.email = request.POST.get('email')
 				user.save()
 				d["status"] = "SUCCESS"
