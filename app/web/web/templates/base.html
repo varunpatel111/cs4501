@@ -18,22 +18,22 @@
       <h2 style="font-family: 'Alegreya', serif;"> The only destination for all your UVa sub-leasing needs </h2>
       {% if not expectedVarName %}
       <div style="float: right; padding: 0px; position: relative; top: -140px">
-      <form action="http://localhost:8000/login/">
+      <form action="/login/">
           <input type="submit" value="Login"/>
         </form>
         <br>
-        <form action="http://localhost:8000/users/new/">
+        <form action="/users/new/">
             <input type="submit" value="Create Account"/>
           </form>
         </div>
       {% endif %}
       {% if expectedVarName %}
       <div style="float: right; padding: 0; position: relative; top: -140px;">
-      <form action="http://localhost:8000/logout/">
+      <form action="/logout/">
           <input type="submit" value="Logout"/>
         </form>
 <br>
-        <form action="http://localhost:8000/listings/new/">
+        <form action="/listings/new/">
             <input type="submit" value="Create Listing"/>
           </form>
         </div>
