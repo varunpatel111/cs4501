@@ -55,8 +55,6 @@ def newUserForm(request):
 	req = urllib.request.Request(s)
 	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 	resp = json.loads(resp_json)
-	#d = {}
-	#d["message"] = "hello world"
 	return JsonResponse(resp)
 
 def loginForm(request):
