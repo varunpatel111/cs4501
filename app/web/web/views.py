@@ -23,10 +23,13 @@ def homePage(request):
 	req = urllib.request.Request('http://exp-api:8000/api/homePage')
 	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 	resp = json.loads(resp_json)
-
 	logged_in = user_logged_in(request)
 	data = resp["data"]
-	return render(request, 'homepage.html', {'data': data, 'logged_in': logged_in})
+
+	response = render(request, 'homepage.html', {'data': data, 'logged_in': logged_in})
+	if request.COOKIES.get('next') != None:
+		response.delete_cookie("next")
+	return response
 
 def get_listing(request, listing):
 	s = "http://exp-api:8000/api/listingPage/" + listing + "/"
@@ -189,43 +192,3 @@ def logout(request):
 	else:
 		response = HttpResponseRedirect("/")
 		return response
-
-
-# def login(request):
-#     # If we received a GET request instead of a POST request
-#     if request.method == 'GET':
-#         # display the login form page
-#         next = request.GET.get('next') or reverse('home')
-#         return render('login.html', ...)
-#
-#     # Creates a new instance of our login_form and gives it our POST data
-#     f = login_form(request.POST)
-#
-#     # Check if the form instance is invalid
-#     if not f.is_valid():
-#       # Form was bad -- send them back to login page and show them an error
-#       return render('login.html', ...)
-#
-#     # Sanitize username and password fields
-#     username = f.cleaned_data['username']
-#     password = f.cleaned_data['password']
-#
-#     # Get next page
-#     next = f.cleaned_data.get('next') or reverse('home')
-#
-#     # Send validated information to our experience layer
-#     resp = login_exp_api(username, password)
-#
-#     # Check if the experience layer said they gave us incorrect information
-#     if not resp or not resp['ok']:
-#       # Couldn't log them in, send them back to login page with error
-#       return render('login.html', ...)
-#
-#     """ If we made it here, we can log them in. """
-#     # Set their login cookie and redirect to back to wherever they came from
-#     authenticator = resp['resp']['authenticator']
-#
-#     response = HttpResponseRedirect(next)
-#     response.set_cookie("auth", authenticator)
-#
-#     return response

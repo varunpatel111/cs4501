@@ -41,22 +41,20 @@ def newListingForm(request):
 def createListing(request):
 	url = "http://models-api:8000/api/listings/create/"
 	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode('utf-8'))
-	content = result.read()
-	return HttpResponse(content)
+	content = result.read().decode('utf-8')
+	return JsonResponse(json.loads(content))
 
 def createUser(request):
 	url = "http://models-api:8000/api/users/create/"
 	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode('utf-8'))
-	content = result.read()
-	return HttpResponse(content)
+	content = result.read().decode('utf-8')
+	return JsonResponse(json.loads(content))
 
 def newUserForm(request):
 	s = "http://models-api:8000/api/users/createForm/"
 	req = urllib.request.Request(s)
 	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 	resp = json.loads(resp_json)
-	#d = {}
-	#d["message"] = "hello world"
 	return JsonResponse(resp)
 
 def loginForm(request):
@@ -69,8 +67,8 @@ def loginForm(request):
 def userLogin(request):
 	url = "http://models-api:8000/api/login/"
 	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode('utf-8'))
-	content = result.read()
-	return HttpResponse(content)
+	content = result.read().decode('utf-8')
+	return JsonResponse(json.loads(content))
 
 def getUserId(request):
 	url = "http://models-api:8000/api/getUserId/"
