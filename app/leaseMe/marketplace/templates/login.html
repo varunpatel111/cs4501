@@ -1,6 +1,9 @@
 <!doctype html>
 
 <html lang="en">
+<body style="background-color: #ffd289;">
+
+
 <head>
   {% block header %}
   <meta charset="utf-8">
@@ -11,41 +14,31 @@
 
   <title> Lease.me</title>
 
-  <center>
-    <div style="background-color: lightblue; position: relative; top: -20px;">
-      <br>
-      <h1 style="font-family: 'Lobster', cursive; font-size: 500%;"> Lease.me </h1>
-      <h2 style="font-family: 'Alegreya', serif;"> The only destination for all your UVa sub-leasing needs </h2>
-      <br><br>
-    </div>
-
-  </center>
   {% endblock %}
 
 </head>
-<body style="background-color: #ffd289;">
-  <center>
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
 
+<center>
 {% block content %}
     <h1>Login</h1>
     <form method="POST" class="post-form">
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Login</button>
     </form>
+    <form action="/">
+        <button type="submit" class="save btn btn-default"> Go Home</button>
+    </form>
 {% endblock %}
-</body>
-
-<br>
-
-<form action="/">
-    <input type="submit" value="Go Home"/>
-  </form>
 
 </center>
+
+
+</body>
+
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+
+<br>

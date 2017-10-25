@@ -29,11 +29,8 @@
   <center>
 
 {{html |safe}}<br>
-<form action="/">
-    <input type="submit" value="Go Home"/>
-  </form>
 
-<div>  {% if messages %}
+{% if messages %}
   <ul class="messages">
       {% for message in messages %}
       <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
