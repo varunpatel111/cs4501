@@ -131,7 +131,7 @@ def create_user_form(request):
 			else:
 				messages.success(request, 'User created successfully')
 				return HttpResponseRedirect('/login')
-			
+
 
 def login_form(request):
 	if user_logged_in(request):
@@ -143,6 +143,7 @@ def login_form(request):
 			resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 			resp = json.loads(resp_json)
 			html = resp["html"]
+
 			#return HttpResponse(resp["html"])
 			return render(request, 'login.html', {'html': html})
 		else:
