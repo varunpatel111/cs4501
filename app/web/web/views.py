@@ -23,10 +23,13 @@ def homePage(request):
 	req = urllib.request.Request('http://exp-api:8000/api/homePage')
 	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 	resp = json.loads(resp_json)
-
 	logged_in = user_logged_in(request)
 	data = resp["data"]
-	return render(request, 'homepage.html', {'data': data, 'logged_in': logged_in})
+
+	response = render(request, 'homepage.html', {'data': data, 'logged_in': logged_in})
+	if request.COOKIES.get('next') != None:
+		response.delete_cookie("next")
+	return response
 
 def get_listing(request, listing):
 	s = "http://exp-api:8000/api/listingPage/" + listing + "/"
@@ -143,7 +146,6 @@ def login_form(request):
 			resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 			resp = json.loads(resp_json)
 			html = resp["html"]
-			#return HttpResponse(resp["html"])
 			return render(request, 'login.html', {'html': html})
 		else:
 			f = request.POST
