@@ -8,7 +8,7 @@ import datetime
 from django.shortcuts import render
 import urllib.request
 import urllib.parse
-
+from kafka import KafkaProducer
 
 def homePage(request):
 	print ("About to perform the GET request...")
@@ -42,7 +42,11 @@ def createListing(request):
 	url = "http://models-api:8000/api/listings/create/"
 	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode('utf-8'))
 	content = result.read().decode('utf-8')
-	return JsonResponse(json.loads(content))
+	resp = json.loads(content)
+	if(resp["status"] == "SUCCESS"):
+		producer = KafkaProducer(bootstrap_servers='kafka:9092')
+		producer.send('new-listings', json.dumps(request.POST).encode('utf-8'))
+	return JsonResponse(resp)
 
 def createUser(request):
 	url = "http://models-api:8000/api/users/create/"
