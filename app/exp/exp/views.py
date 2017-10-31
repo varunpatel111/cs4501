@@ -9,6 +9,7 @@ from django.shortcuts import render
 import urllib.request
 import urllib.parse
 from kafka import KafkaProducer
+from elasticsearch import Elasticsearch
 
 def homePage(request):
 	print ("About to perform the GET request...")
@@ -44,8 +45,10 @@ def createListing(request):
 	content = result.read().decode('utf-8')
 	resp = json.loads(content)
 	if(resp["status"] == "SUCCESS"):
+		data = request.POST
+		data["id"] = resp["id"]
 		producer = KafkaProducer(bootstrap_servers='kafka:9092')
-		producer.send('new-listings', json.dumps(request.POST).encode('utf-8'))
+		producer.send('new-listings', json.dumps(data).encode('utf-8'))
 	return JsonResponse(resp)
 
 def createUser(request):
@@ -88,3 +91,9 @@ def logoutUser(request):
 	resp = result.read().decode('utf-8')
 	resp = json.loads(resp)
 	return JsonResponse(resp)
+
+def search(request):
+	query = (request.POST["query"])
+	#es = Elasticsearch(['es'])
+	#result = es.search(index='listing_index', body={'query': {'query_string': {'query': query}}, 'size': 10})
+	return HttpResponse(result)

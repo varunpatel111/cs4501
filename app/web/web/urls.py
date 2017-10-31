@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^users/new/$', views.create_user_form),
     url(r'^login/$', views.login_form, name='login'),
     url(r'^logout/$', views.logout),
+    url(r'^search/$', views.search),
 ]

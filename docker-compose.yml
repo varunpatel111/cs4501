@@ -13,6 +13,7 @@ exp:
    links:
       - models:models-api
       - kafka:kafka
+      - es:es
    ports:
       - "8002:8000"
    volumes:
@@ -45,6 +46,9 @@ es:
 batch:
    image: tp33/django
    container_name: batch
+   volumes:
+      - ./app/batch:/app
    links:
       - kafka:kafka
       - es:es
+   command: "python /app/script.py"
