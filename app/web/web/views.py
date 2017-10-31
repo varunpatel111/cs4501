@@ -196,5 +196,6 @@ def logout(request):
 def search(request):
 	url = "http://exp-api:8000/api/search/"
 	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode("utf-8"))
-	content = result.read().decode('utf-8')
-	return JsonResponse(json.loads(content))
+	resp = result.read().decode('utf-8')
+	resp = json.loads(resp)
+	return JsonResponse(resp)
