@@ -1,0 +1,69 @@
+<!doctype html>
+{% extends "base.html" %}
+
+<html lang="en">
+<head>
+{% block header %}
+{% with logged_in as expectedVarName %}
+  {{block.super}}
+  {% endwith %}
+{% endblock header %}
+</head>
+{% block content %}
+
+{%if count %}
+<body style="background-color: #ffd289;">
+
+
+  <br>
+
+<div style="text-align: center; left-align: auto; right-align: auto;"><h3 style="font-family: 'Alegreya', serif; font-size: 250%;"> Your search results ... </h3></div>
+<br><br>
+<center>
+
+<table style="width: 85%">
+<tr>
+{% for listing in data %}
+{%if forloop.counter0|divisibleby:3%}
+<tr>
+  {%endif%}
+<td>
+  <div align="center">
+<div style="display: inline-block">
+  <img src="https://i.pinimg.com/736x/7f/be/50/7fbe50ec634c65709d7fe6ac267c4e6f--large-garage-plans-house-plans-large-family.jpg" style="width:200px;"/>
+  <br><br><br>
+</div>
+
+<div style="display: inline-block; vertical-align: top;">
+<p> Start Date: {{listing.start_date}} </p>
+<p> End Date: {{listing.end_date}} </p>
+<p> Price: {{listing.price}} </p>
+<br><br>
+<form action="/listings/{{listing.id}}">
+    <input type="submit" value="See More" />
+</form>
+</div>
+</div>
+</td>
+
+{%if forloop.counter0|add:1|divisibleby:3%}
+</tr>
+{%endif%}
+
+{%endfor%}
+</tr>
+</table>
+</center>
+
+</body>
+{% else %}
+<body style="background-color: #ffd289;">
+
+
+  <br>
+	<div style="text-align: center;"><h3 style="font-family: 'Alegreya', serif; font-size: 250%;"> Sorry there aren't any search results ... </h3></div>
+<body>
+{% endif %}
+
+
+{% endblock %}

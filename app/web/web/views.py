@@ -25,11 +25,11 @@ def homePage(request):
 	resp = json.loads(resp_json)
 	logged_in = user_logged_in(request)
 	data = resp["data"]
-
 	response = render(request, 'homepage.html', {'data': data, 'logged_in': logged_in})
 	if request.COOKIES.get('next') != None:
 		response.delete_cookie("next")
 	return response
+
 
 def get_listing(request, listing):
 	s = "http://exp-api:8000/api/listingPage/" + listing + "/"
@@ -198,4 +198,13 @@ def search(request):
 	result = urllib.request.urlopen(url, urllib.parse.urlencode(request.POST).encode("utf-8"))
 	resp = result.read().decode('utf-8')
 	resp = json.loads(resp)
-	return JsonResponse(resp)
+	count = resp["hits"]["total"]
+	logged_in = user_logged_in(request)
+	data = []
+	if count is 0:
+		return render(request, 'searchResults.html', {'data': data, 'logged_in': logged_in, 'count': False})
+	resp = resp["hits"]["hits"]
+	for d in resp:
+		data.append(d["_source"])
+	response = render(request, 'searchResults.html', {'data': data, 'logged_in': logged_in, 'count': True})
+	return response
