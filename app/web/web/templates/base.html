@@ -28,6 +28,12 @@
         </div>
       {% endif %}
       {% if expectedVarName %}
+      <div>
+          <form action="/search/" method="post">
+               <input type="text" name="query">
+              <input type="submit" value="Search"/>
+            </form>
+     </div>
       <div style="float: right; padding: 0; position: relative; top: -140px;">
       <form action="/logout/">
           <input type="submit" value="Logout"/>
@@ -37,12 +43,8 @@
             <input type="submit" value="Create Listing"/>
           </form>
 
-        <form action="/search/" method="post">
-            Search: <input type="text" name="query"><br>
-            <input type="submit" value="Search"/>
-          </form>
         </div>
-        
+
       {% endif %}
       <br><br>
     </div>
