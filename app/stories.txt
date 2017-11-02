@@ -28,3 +28,19 @@ me to the Home Page
 12) As a user who's been logged in for an X amount of time without any action, I should be logged out.
 
 13) As a user who isn't logged in, I cannot create a listing. If I try, I am led to the login page and then led back to the create listing page.
+
+// Search (Project 5)
+
+14) As a user looking to sublease homes, I would like to search all available listings to find listings that work best for me.
+
+15) As a user searching listings, I should be able to search by any field I want to.
+
+16) As a non-logged in user, I should not be able to search listings
+
+17) As a logged in user, I should be able to execute a search and depending on the results, search again from the same page
+
+18) As a logged in user, if I execute a search and there are no results, I should get a blank screen
+
+19) As a logged in user, I should be able to execute a search, and be able to go to the specific listing page
+
+20) As a logged in user, I should be able to execute a search, and be able to go back to the home page from the listings page.
