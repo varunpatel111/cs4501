@@ -7,7 +7,6 @@ services:
 
 before_install:
 - docker-compose down
-- docker start mysql
 - docker-compose up
 
 script:
