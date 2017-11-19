@@ -25,5 +25,5 @@ install: # prepare mySQL database
     GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
 
 script:
-- docker-compose up
+- docker-compose up -d
 - docker exec -it cs4501_models_1 bash -c "./manage.py test"
