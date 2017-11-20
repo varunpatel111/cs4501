@@ -4,8 +4,6 @@ models:
       -  mysql:db
     volumes:
       - ./app/leaseMe:/app
-    ports:
-      - "8001:8000"
     command: bash -c "python /app/manage.py makemigrations marketplace && python /app/manage.py migrate marketplace && python /app/manage.py loaddata /app/db.json && mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/leaseMe/wsgi.py"
 
 exp:
@@ -14,17 +12,22 @@ exp:
       - models:models-api
       - kafka:kafka
       - es:es
-   ports:
-      - "8002:8000"
    volumes:
       - ./app/exp:/app
    command: "mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/exp/wsgi.py"
-web:
+
+web1:
    image: tp33/django
    links:
       - exp:exp-api
-   ports:
-      - "8000:8000"
+   volumes:
+      - ./app/web:/app
+   command: "mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/web/wsgi.py"   
+
+web2:
+   image: tp33/django
+   links:
+      - exp:exp-api
    volumes:
       - ./app/web:/app
    command: "mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/web/wsgi.py"
@@ -57,7 +60,7 @@ selenium-chrome:
   image: selenium/standalone-chrome
   container_name: selenium-chrome
   links:
-    - web:web
+    - web1:web1
   ports:
     - "4444:4444"
 
@@ -66,7 +69,16 @@ selenium-test:
   container_name: selenium-test
   links:
     - selenium-chrome:selenium-chrome
-    - web:web
+    - web1:web1
   volumes:
     - ./app/selenium:/app
   command: bash -c "pip install selenium==3.7.0 && python seleniumTest.py"
+
+haproxy:
+   build: ./app/haproxy
+   container_name: haproxy
+   links:
+      - web1:web1
+      - web2:web2
+   ports:
+      - "8000:8000"
