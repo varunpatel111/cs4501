@@ -32,10 +32,15 @@ def homePage(request):
 
 
 def get_listing(request, listing):
-	s = "http://exp-api:8000/api/listingPage/" + listing + "/"
-	req = urllib.request.Request(s)
-	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-	resp_user = json.loads(resp_json)
+	url = "http://exp-api:8000/api/listingPage/"
+	if user_logged_in(request):
+		result = urllib.request.urlopen(url, urllib.parse.urlencode({"authenticator" : request.COOKIES.get('authenticator'), "listing" : listing}).encode("utf-8"))
+	else:
+		result = urllib.request.urlopen(url, urllib.parse.urlencode({"listing" : listing}).encode("utf-8"))
+
+	resp = result.read().decode('utf-8')
+	resp_user = json.loads(resp)
+
 	if(resp_user["status"] == "SUCCESS"):
 		data = resp_user["data"]
 		l = data[0]

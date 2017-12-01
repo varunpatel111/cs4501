@@ -18,11 +18,25 @@ def homePage(request):
 	resp = json.loads(resp_json)
 	return JsonResponse(resp)
 
-def get_listing(request, listing):
+def get_listing(request):
+	listing = request.POST.get('listing')
 	s = "http://models-api:8000/api/listings/" + listing + "/"
 	req = urllib.request.Request(s)
 	resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 	resp = json.loads(resp_json)
+
+# Kafka stuff here
+
+	authenticator = request.POST.get('authenticator')
+	if authenticator:
+		url = "http://models-api:8000/api/getUserId/"
+		result = urllib.request.urlopen(url, urllib.parse.urlencode({"authenticator" : authenticator}).encode("utf-8"))
+		resp2 = result.read().decode('utf-8')
+		user_id = json.loads(resp2)["user_id"]
+
+# Ends here
+
+
 	return JsonResponse(resp)
 
 def get_user(request, user):

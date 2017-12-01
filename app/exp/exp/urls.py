@@ -19,7 +19,7 @@ from . import views
 
 urlpatterns = [
 	url(r'^api/homePage', views.homePage),
-	url(r'^api/listingPage/(?P<listing>[0-9]+)/$', views.get_listing),
+	url(r'^api/listingPage/$', views.get_listing),
 	url(r'^api/userPage/(?P<user>[0-9]+)/$', views.get_user),
     url(r'^api/newListing/$', views.newListingForm),
     url(r'^api/createListing/', views.createListing),
