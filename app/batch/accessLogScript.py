@@ -1,16 +1,15 @@
 from kafka import KafkaConsumer
+
 import json
 
-es = None
 consumer = None
-while consumer is None or es is None:
+while consumer is None:
 	try:
-		consumer = KafkaConsumer('new-listings', group_id='listing-indexer', bootstrap_servers=['kafka:9092'])
-		es = Elasticsearch(['es'])
+		consumer = KafkaConsumer('clickedListings', group_id='clickedListing-indexer', bootstrap_servers=['kafka:9092'])
 	except:
 		pass
 
-for listing in consumer:
-	js = json.loads((listing.value).decode('utf-8'))
-	es.index(index='listing_index', doc_type='listing', id=js["id"], body=js)
-	es.indices.refresh(index="listing_index")
+for click in consumer:
+	js = json.loads((click.value).decode('utf-8'))
+	F = open("accessLog.txt", 'a')
+	F.write(str(js["user_id"]) + "," + str(js["listing_id"]) + "\n")

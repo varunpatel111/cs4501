@@ -33,9 +33,17 @@ def get_listing(request):
 		result = urllib.request.urlopen(url, urllib.parse.urlencode({"authenticator" : authenticator}).encode("utf-8"))
 		resp2 = result.read().decode('utf-8')
 		user_id = json.loads(resp2)["user_id"]
+		listing_id = resp["data"][0]["id"]
+
+		data = {}
+		data["user_id"] = user_id
+		data["listing_id"] = listing_id
+		resp["data2"] = (user_id, listing_id)
+		producer = KafkaProducer(bootstrap_servers='kafka:9092')
+		producer.send('clickedListings', json.dumps(data).encode('utf-8'))
+
 
 # Ends here
-
 
 	return JsonResponse(resp)
 

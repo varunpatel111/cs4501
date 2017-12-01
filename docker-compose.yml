@@ -22,7 +22,7 @@ web1:
       - exp:exp-api
    volumes:
       - ./app/web:/app
-   command: "mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/web/wsgi.py"   
+   command: "mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/web/wsgi.py"
 
 web2:
    image: tp33/django
@@ -55,6 +55,16 @@ batch:
       - kafka:kafka
       - es:es
    command: "python /app/script.py"
+
+batch2:
+   image: tp33/django
+   container_name: batch2
+   volumes:
+      - ./app/batch:/app
+   links:
+      - kafka:kafka
+      - es:es
+   command: "python /app/accessLogScript.py"
 
 selenium-chrome:
   image: selenium/standalone-chrome
