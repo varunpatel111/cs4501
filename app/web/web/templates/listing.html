@@ -50,5 +50,14 @@
 
   </h4>
 
+  {% if recs %}
+  <h1> Check out these pages!! They are commonly viewed with this listing </h1>
+      {% for rec in recs%}
+      <form action="/listings/{{rec}}">
+          <input type="submit" value="Take me There!"/>
+      </form>
+      {% endfor %}
+    {% endif %}
+
 </center></body>
 {% endblock %}

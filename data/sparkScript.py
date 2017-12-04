@@ -41,18 +41,18 @@ for x in output:
     else:
         if l_2 not in curr_1:
          d[l_1] = curr_1 + str(l_2) + ', '
-         
+
     if (curr_2 == ''):
         d[l_2] = str(l_1) + ', '
     else:
         if l_1 not in curr_2:
-         d[l_2] = curr_2 + str(l_1) + ', '   
+         d[l_2] = curr_2 + str(l_1) + ', '
 
 for key, value in d.items():
-    c.execute(""" DELETE FROM marketplace_recommendation WHERE listing = (%s); """, (key))         
+    c.execute(""" DELETE FROM marketplace_recommendation WHERE listing = (%s); """, (key))
 
 for key, value in d.items():
-    c.execute(""" INSERT INTO marketplace_recommendation VALUES (%s, %s); """, (value, key))
-
+    c.execute(""" INSERT INTO marketplace_recommendation (listing, listings) VALUES (%s, %s); """, (key, value))
+    
 db.commit()
 db.close()

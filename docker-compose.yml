@@ -4,6 +4,8 @@ models:
       -  mysql:db
     volumes:
       - ./app/leaseMe:/app
+    ports:
+      - "8001:8000"
     command: bash -c "python /app/manage.py makemigrations marketplace && python /app/manage.py migrate marketplace && python /app/manage.py loaddata /app/db.json && mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/leaseMe/wsgi.py"
 
 exp:

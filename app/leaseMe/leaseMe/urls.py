@@ -24,6 +24,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^recommendations/', viewsListings.recommendations),
+    url(r'^api/rec/del/(?P<rec>[0-9]+)/$', viewsListings.delete_recs),
+    url(r'^api/rec/(?P<rec>[0-9]+)/$', viewsListings.get_recs),
+
     #url(r'^', include(router.urls)),
     #url(r'^api/', include(ro, csrf_exempt(direct_to_template), uter.urls))
     url(r'^api/users/$', viewsUsers.all_users),

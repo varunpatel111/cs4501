@@ -30,6 +30,23 @@ def homePage(request):
 		response.delete_cookie("next")
 	return response
 
+def get_rec (request, rec):
+	url = "http://exp-api:8000/api/rec/" + str(rec) + "/"
+	result = urllib.request.urlopen(url)
+	resp = result.read().decode('utf-8')
+	resp_user = json.loads(resp)
+
+	status = resp_user['status']
+	if status == "SUCCESS":
+		listing = resp_user['data'][0]['listing']
+
+		listings = str(resp_user['data'][0]['listings'])
+		listings = listings.replace(" ", "")
+		listings = listings[0:-2].split(',')[:3]
+
+		return listings
+	else:
+		return []
 
 def get_listing(request, listing):
 	url = "http://exp-api:8000/api/listingPage/"
@@ -55,8 +72,11 @@ def get_listing(request, listing):
 		all_data['listing'] = l
 		all_data['user'] = u
 		logged_in = user_logged_in(request)
+		recs = get_rec(request, listing)
+		# return HttpResponse(recs)
+		# return HttpResponse(recs)
 
-		return render(request, 'listing.html',  {'data': all_data, 'logged_in' : logged_in})
+		return render(request, 'listing.html',  {'data': all_data, 'logged_in' : logged_in, 'recs' : recs})
 	else:
 		return render(request, 'Error.html')
 

@@ -1,6 +1,7 @@
 from .models import CustomUser
 from .models import Listing
 from .models import Authenticator
+from .models import Recommendation
 from django.http import Http404
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -45,6 +46,49 @@ def all_listings(request):
 		d["message"] = "NO LISTINGS AVAILABLE"
 		return JsonResponse(d)
 
+
+def delete_recs(request, rec):
+    rec1 = Recommendation.objects.all()
+    for rec in rec1:
+        rec.delete()
+    return HttpResponse('deleted')
+
+
+def recommendations(request):
+    d = {}
+    queryset = Recommendation.objects.all().values()
+    arr = []
+    for obj in queryset:
+        arr.append(obj)
+    if (len(queryset) > 0):
+        d['status'] = "SUCCESS"
+        d['data'] = arr
+        return JsonResponse(d)
+    else:
+        d['status'] = 'FAILED'
+        d['message'] = 'NO LISTINGS AVAILABLE'
+        return JsonResponse(d)
+
+def get_recs(request, rec):
+    d = {}
+    if request.method != 'GET':
+        d["status"] = "FAILED"
+        d["message"] = "MUST BE A GET REQUEST"
+        return JsonResponse(d)
+
+    if request.method == "GET":
+        listing_num = int(rec)
+        if (len(Recommendation.objects.filter(listing=listing_num)) != 0):
+            listing1 = Recommendation.objects.filter(listing=listing_num).values()
+            arr = []
+            arr.append(listing1[0])
+            d["status"] = "SUCCESS"
+            d["data"] = arr
+            return JsonResponse(d)
+        else:
+            d["status"] = "FAILED"
+            d["message"] = "THAT LISTING DOESN'T EXIST"
+            return JsonResponse(d)
 
 #Get a single Listing (0, 1, 2...)
 def get_listing(request, listing):
