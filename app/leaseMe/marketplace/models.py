@@ -27,3 +27,7 @@ class Authenticator(models.Model):
 	user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 	authenticator = models.CharField(max_length=256)
 	date_created = models.CharField(max_length=50)
+
+class Recommendation(models.Model):
+	listing = models.CharField(unique=True, primary_key=True, default='0', max_length=255)
+	listings = models.CharField(max_length=300, default="")
