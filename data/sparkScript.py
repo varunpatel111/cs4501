@@ -15,7 +15,7 @@ output = output.map(lambda x: (x[0], len(x[1]))).filter(lambda x: list(x[0])[0] 
 for x in output:
     print (x[0][0] + ' and ' + x[0][1], (x[1]))
 
-F = open("sparkOutput.txt", 'w')
+F = open("/tmp/data/sparkOutput.txt", 'w')
 
 for x in output:
     F.write(str(x[0][0]) + ', ' + str(x[0][1]) + ': ' + str(x[1]) + "\n")
@@ -62,7 +62,7 @@ for key, value in d.items():
 
 for key, value in d.items():
     c.execute(""" INSERT INTO marketplace_recommendation (listing, listings) VALUES (%s, %s); """, (key, value))
-    
+
 db.commit()
 db.close()
 
