@@ -42,7 +42,7 @@ def get_rec (request, rec):
 
 		listings = str(resp_user['data'][0]['listings'])
 		listings = listings.replace(" ", "")
-		listings = listings[0:-2].split(',')[:3]
+		listings = listings[0:-1].split(',')[:3]
 
 		return listings
 	else:

@@ -15,7 +15,14 @@ output = output.map(lambda x: (x[0], len(x[1]))).filter(lambda x: list(x[0])[0] 
 for x in output:
     print (x[0][0] + ' and ' + x[0][1], (x[1]))
 
-print ("Recommended items done")
+F = open("sparkOutput.txt", 'w')
+
+for x in output:
+    F.write(str(x[0][0]) + ', ' + str(x[0][1]) + ': ' + str(x[1]) + "\n")
+F.close()
+
+print ("-----------------------------------------------")
+print ("Spark done job ")
 
 sc.stop()
 
