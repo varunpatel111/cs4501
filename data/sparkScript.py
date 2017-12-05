@@ -19,10 +19,12 @@ F = open("sparkOutput.txt", 'w')
 
 for x in output:
     F.write(str(x[0][0]) + ', ' + str(x[0][1]) + ': ' + str(x[1]) + "\n")
+
 F.close()
 
 print ("-----------------------------------------------")
-print ("Spark done job ")
+print ("SPARK JOB DONE; NOW WRITING RECOMMENDATIONS INTO DATABASE")
+print ("-----------------------------------------------")
 
 sc.stop()
 
@@ -63,3 +65,7 @@ for key, value in d.items():
     
 db.commit()
 db.close()
+
+print ("-----------------------------------------------")
+print ("RECOMMENDATIONS POPULATED INTO DATABASE; END OF SCRIPT")
+print ("-----------------------------------------------")
