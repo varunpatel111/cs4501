@@ -5,3 +5,4 @@ app/leaseMe/db.sqlite3
 .DS_Store
 *.sqlite3
 data/accessLog.txt
+data/sparkOutput.txt
